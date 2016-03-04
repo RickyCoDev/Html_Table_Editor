@@ -1,6 +1,8 @@
 #include "Msg.h"
 
-void Msg::ColoredOutput(std::string Message, Color col)
+Cmsg::Msg::Msg() {};
+
+void Cmsg::Msg::OutStream::ColoredOutput(std::string Message, Color col)
 {
 	//platform dependent compilation to grant cross platform colors
 #if _WIN32
@@ -43,24 +45,33 @@ void Msg::ColoredOutput(std::string Message, Color col)
 #endif	
 }
 
-void Msg::log(std::string Message)
+
+Cmsg::Msg::OutStream::OutStream(Color col)
 {
-	std::cout <<"**LOG** "<< Message;
+	_col = col;
+	switch (col)
+	{
+	case Cmsg::Msg::red:
+		prefix = "**Error** ";
+		break;
+	case Cmsg::Msg::yellow:
+		prefix = "**Warning** ";
+		break;
+	case Cmsg::Msg::default:
+		prefix = "**Log** ";
+		break;
+	default:
+		break;
+	}
 }
 
-void Msg::warn(std::string Message)
+Cmsg::Msg::OutStream& Cmsg::Msg::OutStream::operator<< (const std::string& _msg)
 {
-	Message = "**WARNING** " + Message;
-	ColoredOutput(Message, Color::yellow);
+	if (_col != Color::default)
+		ColoredOutput(prefix+_msg+"\n", _col);
+	else
+		std::cout << prefix<< _msg <<"\n";
+	return *this;
 }
 
-void Msg::err(std::string Message)
-{
-	Message = "**ERROR**" + Message;
-	ColoredOutput(Message, Color::red);
-}
 
-void Msg::succ(std::string Message)
-{
-	ColoredOutput(Message, Color::green);
-}

@@ -13,26 +13,30 @@
 #define BLUE  "\x1b[34m"
 #define DEFAULT  "\x1b[0m"
 #endif
-
-static class Msg
+namespace Cmsg
 {
-public:
-	//normal message -> gray
-	static void log(std::string Message);
-	//warning message -> yellow
-	static void warn(std::string Message);
-	//error message -> red
-	static void err(std::string Message);
-	//success message -> green
-	static void succ(std::string Message);
+	class Msg
+	{
+	private:
+		//available colors
+		static enum Color { red, yellow, green, blue, default };
 
-private:
-	//available colors
-	static enum Color { red, yellow, green, blue };
+		class OutStream
+		{
+		private:
+			std::string prefix;
+			Color _col;
+			//output string to a desired color
+			static void ColoredOutput(std::string Message, Color col);
+		public:
+			OutStream& operator << (const std::string& _msg);
+			OutStream(Color col);
+		};
 
-	//output string to a desired color
-	static void ColoredOutput(std::string Message, Color col);
+	public:
+		Msg();
+		OutStream clog{ Color::default }, cwarn{ Color::yellow }, cerr{ Color::red }, csucc{ Color::green };
+	};
 
-
-};
+}
 
