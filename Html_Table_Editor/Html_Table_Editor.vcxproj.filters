@@ -21,6 +21,9 @@
     <ClInclude Include="Common.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
+    <ClInclude Include="Cell.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Msg.cpp">
@@ -33,6 +36,9 @@
       <Filter>File di origine</Filter>
     </ClCompile>
     <ClCompile Include="CommonDef.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="Cell.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
   </ItemGroup>
