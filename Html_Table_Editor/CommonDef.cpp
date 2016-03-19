@@ -3,6 +3,9 @@ Cmsg::Msg* msg = new Cmsg::Msg{};
 
 std::string Replace(const std::string& input, const std::string& StringToReplace, const std::string& Replacer)
 {
+	if (!CheckForPresence(input, StringToReplace))
+		throw CustomExceptions::ReadError("Can't find: "+StringToReplace) ;
+
 	std::string result = input;
 	//replace all matches
 	for (std::size_t i = result.find(StringToReplace, 0); i != std::string::npos;)
@@ -13,13 +16,22 @@ std::string Replace(const std::string& input, const std::string& StringToReplace
 	return result;
 }
 
-void ReplaceFirst(std::string& target, const std::string& StringToReplace, const std::string& Replacer)
+std::string ReplaceFirst(const std::string& input, const std::string& StringToReplace, const std::string& Replacer)
 {
-	target.replace(target.find(StringToReplace, 0), StringToReplace.length(), Replacer);
+	if (!CheckForPresence(input, StringToReplace))
+		throw CustomExceptions::ReadError("Can't find: " + StringToReplace);
+
+	std::string result = input;
+	result.replace(result.find(StringToReplace, 0), StringToReplace.length(), Replacer);
+	return result;
 }
-void InsertCustomTags(std::string& target)
+
+bool CheckForPresence(const std::string& input, const std::string& item)
 {
-	target = Replace(target, "<td", LineCellTag);
-	target = Replace(target, "</td"," "+LineCellTag);
+	if (input.find(item) != std::string::npos)
+		return true;
+	else
+		return false;
 }
+
 

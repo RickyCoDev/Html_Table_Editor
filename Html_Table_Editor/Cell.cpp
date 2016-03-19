@@ -22,7 +22,7 @@ Cell& Cell::operator>> (std::string& val)
 			foundClosetag = true; 
 
 		//check that the item is not a open/close tag
-		if (item.find(LineCellTag) == std::string::npos && foundClosetag && item.find(CustomCloseTag) == std::string::npos)
+		if (item.find(RowOpenTag) == std::string::npos && foundClosetag && item.find(CustomCloseTag) == std::string::npos)
 		{
 			content += item+" ";
 		}
