@@ -1,6 +1,11 @@
 # Html Table Editor
 
-This program is still in development, so expect to find issues and bugs!
+This program is early development, so expect to find lots of issues and bugs! 
+
+You also may expect that some functionalities are missing. 
+
+Make sure to check the fetures list to see the actual status of the development.
+
 
 # Features
 - [ ] Read Html tables from a text/html file
