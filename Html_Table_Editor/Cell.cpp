@@ -10,8 +10,9 @@ http://www.apache.org/licenses/LICENSE-2.0
 
 #include "Cell.h"
 
-Cell::Cell()
+Cell::Cell(const std::string& input,const int cellNumber) : CellNumber(cellNumber)
 {
+	msg->clog << "Cell " + std::to_string(cellNumber) << ":\n" + input;
 }
 
 

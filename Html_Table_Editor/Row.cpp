@@ -9,14 +9,42 @@ http://www.apache.org/licenses/LICENSE-2.0
 */
 #include "Row.h"
 
-
-
-Row::Row(std::string input,int rowNumber) : RowNumber(rowNumber)
+Row::Row(const std::string& input, const int rowNumber) : RowNumber(rowNumber)
 {
-	msg->clog << "Row " + std::to_string(RowNumber) + ":\n " + input;
+	std::string _input = input;
+	//input = Reduce(input, ">",""); // remove the open tag part
+	msg->clog << "Row " + std::to_string(RowNumber) + ":\n " + _input;
+	try 
+	{
+		PopulateCells(_input);
+	}
+	catch (const std::exception& e)
+	{
+		msg->cerr << "E0007 - Sorry, something went wrong reading table rows.";
+		msg->cerr << "Details: " + (std::string)e.what();
+	}
 }
-
 
 Row::~Row()
 {
+}
+
+void Row::PopulateCells(std::string input)
+{
+	std::vector<std::string> Parts;
+	if (CheckForPresence(input, CellCloseTag)) // normal line
+	{
+		Parts = SplitAt(input, CellCloseTag);
+	}
+	else
+	{
+		//layout line
+		Parts = SplitAt(input, HCellCloseTag);
+		isLayout = true;
+	}
+	for (int i = 0; i < Parts.size(); i++)
+	{
+		Cell c = Cell{ Parts[i],i };
+		Cells.push_back(c);
+	}
 }

@@ -86,6 +86,6 @@ Cmsg::Msg::OutStream& Cmsg::Msg::OutStream::operator<< (const std::string& _msg)
 
 void Cmsg::Msg::WelcomeMessage()
 {
-	csucc<<"Html Table Editor"<<"\n"<<"\n"<<"https://github.com/RickyCoDev/Html_Table_Editor"<<"Copyright (c) 2016 RickyCoDev"<<"\n"<<"Licenced under Apache 2.0 Licence"
+	csucc << "Html Table Editor" << "https://github.com/RickyCoDev/Html_Table_Editor" <<"\nCopyright (c) 2016 RickyCoDev"<<"Licenced under Apache 2.0 Licence\n";
 }
 

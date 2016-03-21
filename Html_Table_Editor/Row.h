@@ -11,12 +11,20 @@ http://www.apache.org/licenses/LICENSE-2.0
 #include <string>
 #include <vector>
 #include "Common.h"
+#include "Cell.h"
 class Row
 {
 private:
+	bool isLayout;
 	int RowNumber;
+	std::vector<Cell> Cells;
+
+	void PopulateCells(std::string input);
 public:
-	Row(std::string input, int rowNumber);
+	Row(const std::string& input,const int rowNumber);
 	~Row();
+
+	int GetRowNumber() { return RowNumber; }
+
 };
 

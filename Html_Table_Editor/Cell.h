@@ -11,15 +11,17 @@ http://www.apache.org/licenses/LICENSE-2.0
 #pragma once
 #include<string>
 #include<iostream>
-#include<sstream>
 #include"Common.h"
+
 class Cell
 {
 private:
 	std::string content;
+	int CellNumber;
+
 
 public:
-	Cell();
+	Cell(const std::string& input, const int cellNumber);
 	~Cell();
 	std::string GetContent() { return content; }
 

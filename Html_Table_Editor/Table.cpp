@@ -14,11 +14,18 @@ Table::Table(const std::string& input)
 {
 	_input = input;
 	ReplaceKnownHtmlFormattingTags();
-	msg->clog << "Tag replace result is:\n" + _input;
-	_input = Reduce(_input, ">", TableCloseTag); // the > is the close park of <table ...>
-
-	msg->clog << "Table reduce result is:\n" + _input;
-	PopulateRows(_input);
+	//msg->clog << "Tag replace result is:\n" + _input;
+	try 
+	{
+		_input = Reduce(_input, TableOpenTag, TableCloseTag); 
+		msg->clog << "Table reduce result is:\n" + _input;
+		PopulateRows(_input);
+	}
+	catch (const std::exception& e)
+	{
+		msg->cerr << "E0006 - Sorry, something went wrong preparing table rows.";
+		msg->cerr << "Details: " + (std::string)e.what();
+	}
 
 }
 
@@ -41,11 +48,11 @@ void Table::ReplaceKnownHtmlFormattingTags()
 		_input = Replace(_input, "</tr", RowCloseTag);
 
 		_input = Replace(_input, "<td", CellOpenTag);
-		_input = Replace(_input, "</td", CellOpenTag);
+		_input = Replace(_input, "</td", CellCloseTag);
 	}
 	catch (const std::exception& e)
 	{
-		msg->cerr << "Sorry, this is not a Html table. Please check your input.";
+		msg->cerr << "E0005 - Sorry, this is not a Html table. Please check your input.";
 		msg->cerr << "Details: " + (std::string)e.what();
 		throw e; // prevent the program to continue without an acceptable input
 	}

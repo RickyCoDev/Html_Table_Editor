@@ -37,7 +37,7 @@ std::string Replace(const std::string& input, const std::string& StringToReplace
 std::string ReplaceFirst(const std::string& target, const std::string& StringToReplace, const std::string& Replacer);
 
 //returns the string between an the first open/close separators
-std::string Reduce(const std::string& input, const std::string& BeginPoint, const std::string& EndPoint);
+std::string Reduce(const std::string& input, const std::string& BeginPoint, const std::string& EndPointbool, const bool CloseTag = true);
 
 //check if a string is present in the input
 bool CheckForPresence(const std::string& input, const std::string& item);

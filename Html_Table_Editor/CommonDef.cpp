@@ -8,13 +8,13 @@ Licenced under Apache 2.0 Licence
 http://www.apache.org/licenses/LICENSE-2.0
 */
 
-#include"Common.h";
+#include"Common.h"
 Cmsg::Msg* msg = new Cmsg::Msg{};
 
 std::string Replace(const std::string& input, const std::string& StringToReplace, const std::string& Replacer)
 {
 	if (!CheckForPresence(input, StringToReplace))
-		throw CustomExceptions::ReadError("Can't find: "+StringToReplace) ;
+		throw CustomExceptions::ReadError("E0001 - Can't find: "+StringToReplace) ;
 
 	std::string result = input;
 	//replace all matches
@@ -29,23 +29,31 @@ std::string Replace(const std::string& input, const std::string& StringToReplace
 std::string ReplaceFirst(const std::string& input, const std::string& StringToReplace, const std::string& Replacer)
 {
 	if (!CheckForPresence(input, StringToReplace))
-		throw CustomExceptions::ReadError("Can't find: " + StringToReplace);
+		throw CustomExceptions::ReadError("E0002 - Can't find: " + StringToReplace);
 
 	std::string result = input;
 	result.replace(result.find(StringToReplace, 0), StringToReplace.length(), Replacer);
 	return result;
 }
 
-std::string Reduce(const std::string& input, const std::string& BeginPoint, const std::string& EndPoint)
+std::string Reduce(const std::string& input, const std::string& BeginPoint, const std::string& EndPoint,const bool CloseTag)
 {
 	if(!CheckForPresence(input,BeginPoint))
-		throw CustomExceptions::ReadError("Can't find begin point: " + BeginPoint);
-	if (!CheckForPresence(input, EndPoint))
-		throw CustomExceptions::ReadError("Can't find end point: " + EndPoint);
+		throw CustomExceptions::ReadError("E0003 - Can't find begin point: " + BeginPoint);
+
+	if (CloseTag)
+	{
+		if (!CheckForPresence(input, EndPoint))
+		throw CustomExceptions::ReadError("E0004 - Can't find end point: " + EndPoint);
+	}
 
 	//if we get here, there must be open and close items
 	size_t begin = input.find(BeginPoint) + BeginPoint.length(); // not include the open token
-	size_t end = input.find(EndPoint);
+	size_t end;
+	if (CloseTag)
+		end = input.find(EndPoint);
+	else
+		end = input.length();
 
 	return input.substr(begin, end - begin); // return the string between the two markers
 }
