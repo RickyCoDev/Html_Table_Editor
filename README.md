@@ -1,4 +1,3 @@
-[![Stories in Ready](https://badge.waffle.io/RickyCoDev/Html_Table_Editor.png?label=ready&title=Ready)](https://waffle.io/RickyCoDev/Html_Table_Editor)
 # Html Table Editor
 
 This program is early development, so expect to find lots of issues and bugs! 
@@ -24,6 +23,7 @@ At the moment I don't offer any binary donwload, you have to compile the code to
 
 ### Windows Build status
 [![Build status](https://ci.appveyor.com/api/projects/status/gao8c2jqu3tftuft?svg=true)](https://ci.appveyor.com/project/RickyCoDev/html-table-editor)
+[![Stories in Ready](https://badge.waffle.io/RickyCoDev/Html_Table_Editor.png?label=ready&title=Ready)](https://waffle.io/RickyCoDev/Html_Table_Editor)
 
 
 ## Reminder
