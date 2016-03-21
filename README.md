@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/RickyCoDev/Html_Table_Editor.png?label=ready&title=Ready)](https://waffle.io/RickyCoDev/Html_Table_Editor)
 # Html Table Editor
 
 This program is early development, so expect to find lots of issues and bugs! 
