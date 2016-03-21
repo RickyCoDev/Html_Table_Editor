@@ -14,6 +14,7 @@
 
 #include "Msg.h"
 #include "CustomExceptions.h"
+#include <vector>
 
 extern Cmsg::Msg* msg;
 
@@ -39,6 +40,8 @@ std::string ReplaceFirst(const std::string& target, const std::string& StringToR
 std::string Reduce(const std::string& input, const std::string& BeginPoint, const std::string& EndPoint);
 
 bool CheckForPresence(const std::string& input, const std::string& item);
+
+std::vector<std::string> SplitAt(const std::string& input, const std::string token);
 
 #endif // !Common_H
 

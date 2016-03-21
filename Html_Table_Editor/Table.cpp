@@ -14,8 +14,14 @@ Table::Table(const std::string& input)
 {
 	_input = input;
 	ReplaceKnownHtmlFormattingTags();
+	msg->clog << "Tag replace result is:\n" + _input;
+	_input = Reduce(_input, ">", TableCloseTag); // the > is the close park of <table ...>
 
-	msg->clog <<"The result is:\n"+ _input;
+	msg->clog << "Table reduce result is:\n" + _input;
+	std::vector<std::string> StringLines = SplitAt(_input,RowCloseTag); // split lines
+	for (int i = 0; i < StringLines.size(); i++)
+		msg->clog << "\n" + StringLines[i];
+
 }
 
 

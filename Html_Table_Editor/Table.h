@@ -9,8 +9,9 @@ http://www.apache.org/licenses/LICENSE-2.0
 */
 
 #pragma once
-#include<iostream>
-#include<string>
+#include <iostream>
+#include <string>
+#include <vector>
 #include "Common.h"
 #include "CustomExceptions.h"
 
