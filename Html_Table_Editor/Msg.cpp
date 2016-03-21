@@ -84,4 +84,8 @@ Cmsg::Msg::OutStream& Cmsg::Msg::OutStream::operator<< (const std::string& _msg)
 	return *this;
 }
 
+void Cmsg::Msg::WelcomeMessage()
+{
+	csucc<<"Html Table Editor"<<"\n"<<"\n"<<"https://github.com/RickyCoDev/Html_Table_Editor"<<"Copyright (c) 2016 RickyCoDev"<<"\n"<<"Licenced under Apache 2.0 Licence"
+}
 

@@ -30,6 +30,9 @@
     <ClInclude Include="CustomExceptions.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
+    <ClInclude Include="Row.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Msg.cpp">
@@ -51,6 +54,9 @@
       <Filter>File di origine</Filter>
     </ClCompile>
     <ClCompile Include="CustomExceptions.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="Row.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
   </ItemGroup>

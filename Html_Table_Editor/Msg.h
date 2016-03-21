@@ -46,6 +46,7 @@ namespace Cmsg
 	public:
 		Msg();
 		OutStream clog{ Color::default }, cwarn{ Color::yellow }, cerr{ Color::red }, csucc{ Color::green };
+		void WelcomeMessage();
 	};
 
 }

@@ -16,7 +16,7 @@ http://www.apache.org/licenses/LICENSE-2.0
 
 int main()
 {
-	std::cout << "Normal Message\n";
+	msg->WelcomeMessage();
 	std::string Example = "<td class='blabla' ><center>Ciao sono matio</center>";
 	std::string Example2 = "<table><tr><th>1a<br></th><th>1b<br></th><th>1c<br></th><th>1d</th><th>1e<br></th></tr><tr><td>2a</td><td>2b<br></td><td>2c<br></td><td>2d</td><td>2e<br></td></tr></table>";
 

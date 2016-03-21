@@ -39,8 +39,10 @@ std::string ReplaceFirst(const std::string& target, const std::string& StringToR
 //returns the string between an the first open/close separators
 std::string Reduce(const std::string& input, const std::string& BeginPoint, const std::string& EndPoint);
 
+//check if a string is present in the input
 bool CheckForPresence(const std::string& input, const std::string& item);
 
+//split a string into parts
 std::vector<std::string> SplitAt(const std::string& input, const std::string token);
 
 #endif // !Common_H

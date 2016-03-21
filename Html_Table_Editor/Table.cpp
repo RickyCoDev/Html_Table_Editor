@@ -18,9 +18,7 @@ Table::Table(const std::string& input)
 	_input = Reduce(_input, ">", TableCloseTag); // the > is the close park of <table ...>
 
 	msg->clog << "Table reduce result is:\n" + _input;
-	std::vector<std::string> StringLines = SplitAt(_input,RowCloseTag); // split lines
-	for (int i = 0; i < StringLines.size(); i++)
-		msg->clog << "\n" + StringLines[i];
+	PopulateRows(_input);
 
 }
 
@@ -50,5 +48,16 @@ void Table::ReplaceKnownHtmlFormattingTags()
 		msg->cerr << "Sorry, this is not a Html table. Please check your input.";
 		msg->cerr << "Details: " + (std::string)e.what();
 		throw e; // prevent the program to continue without an acceptable input
+	}
+}
+
+void Table::PopulateRows(const std::string& input)
+{
+	std::vector<std::string> StringLines = SplitAt(input, RowCloseTag); // split lines
+
+	for (int i = 0; i < StringLines.size(); i++)
+	{
+		Row r = Row{ StringLines[i],i };
+		Rows.push_back(r);
 	}
 }

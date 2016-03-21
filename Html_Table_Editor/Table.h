@@ -14,13 +14,17 @@ http://www.apache.org/licenses/LICENSE-2.0
 #include <vector>
 #include "Common.h"
 #include "CustomExceptions.h"
+#include "Row.h";
 
 class Table
 {
 private:
+	std::string _input;
+	std::vector<Row> Rows;
+
 	//replace all html tags with custom defined tags
 	void ReplaceKnownHtmlFormattingTags();
-	std::string _input;
+	void PopulateRows(const std::string& input);
 public:
 	Table(const std::string& input);
 	~Table();
