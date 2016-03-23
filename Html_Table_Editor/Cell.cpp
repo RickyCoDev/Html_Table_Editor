@@ -23,9 +23,11 @@ Cell::Cell(const std::string& input,const int cellNumber) : CellNumber(cellNumbe
 	{
 		msg->cerr << "E0008 - Sorry, something went wrong reading cell "+ std::to_string(cellNumber) +".";
 		msg->cerr << "Details: " + (std::string)e.what();
+		msg->cerr << "An empty cell will be created!";
+		content = "";
 	}
 
-	msg->clog << "Cell " + std::to_string(cellNumber) + ":\n" + content;
+	msg->clog << "Cell " + std::to_string(cellNumber+1) + ":\n" + content;
 }
 
 

@@ -12,21 +12,7 @@ http://www.apache.org/licenses/LICENSE-2.0
 
 Table::Table(const std::string& input)
 {
-	_input = input;
-	ReplaceKnownHtmlFormattingTags();
-	//msg->clog << "Tag replace result is:\n" + _input;
-	try 
-	{
-		_input = Reduce(_input, TableOpenTag, TableCloseTag); 
-		//msg->clog << "Table reduce result is:\n" + _input;
-		PopulateRows(_input);
-	}
-	catch (const std::exception& e)
-	{
-		msg->cerr << "E0006 - Sorry, something went wrong preparing table rows.";
-		msg->cerr << "Details: " + (std::string)e.what();
-	}
-
+	GetTable(input);
 	msg->csucc << "The table in input has this properties:"
 		<< "has a layout: " + std::to_string(HasLayout())
 	    << "has "+std::to_string(GetRowNumber()) + " rows"
@@ -63,13 +49,39 @@ void Table::ReplaceKnownHtmlFormattingTags()
 	}
 }
 
-void Table::PopulateRows(const std::string& input)
+void Table::PopulateRows(const std::string& input, int startPos)
 {
 	std::vector<std::string> StringLines = SplitAt(input, RowCloseTag); // split lines
-
+	StringLines.erase(StringLines.begin(), StringLines.begin() + startPos); //remove all the ignored lines
 	for (int i = 0; i < StringLines.size(); i++)
 	{
 		Row r = Row{ StringLines[i],i };
 		Rows.push_back(r);
+	}
+}
+
+//get table data
+void Table::GetTable(const std::string& input)
+{
+	_input = input;
+	ReplaceKnownHtmlFormattingTags();
+	//msg->clog << "Tag replace result is:\n" + _input;
+	try
+	{
+		_input = Reduce(_input, TableOpenTag, TableCloseTag);
+		//msg->clog << "Table reduce result is:\n" + _input;
+		PopulateRows(_input,ignorepos);
+	}
+	catch (const CustomExceptions::FileError& e)//ignore the line and try to check again the table
+	{
+		ignorepos++;
+		msg->cwarn << "Ignoring line: " + std::to_string(ignorepos);
+		Rows.clear(); // be sure that all row vector is clear
+		GetTable(input); // try to read again the table
+	}
+	catch (const std::exception& e)
+	{
+		msg->cerr << "E0006 - Sorry, something went wrong preparing table rows.";
+		msg->cerr << "Details: " + (std::string)e.what();
 	}
 }

@@ -21,10 +21,11 @@ class Table
 private:
 	std::string _input;
 	std::vector<Row> Rows;
-
+	int ignorepos = 0;
 	//replace all html tags with custom defined tags
 	void ReplaceKnownHtmlFormattingTags();
-	void PopulateRows(const std::string& input);
+	void PopulateRows(const std::string& input, int startPos);
+	void GetTable(const std::string& input);
 public:
 	Table(const std::string& input);
 	~Table();
