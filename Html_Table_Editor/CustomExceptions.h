@@ -23,5 +23,14 @@ public:
 	private:
 		std::string m;
 	};
+
+	class FileError : public std::exception
+	{
+	public:
+		const char* what() const override { return m.c_str(); };
+		FileError(const std::string message) { m = message; }
+	private:
+		std::string m;
+	};
 };
 

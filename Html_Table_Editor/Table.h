@@ -28,5 +28,8 @@ private:
 public:
 	Table(const std::string& input);
 	~Table();
+	int GetRowNumber() { return Rows.size(); }
+	int GetColumnNumber() { return Rows[0].GetCells(); }
+	bool HasLayout() { return Rows[0].RowIsLayout(); }
 };
 

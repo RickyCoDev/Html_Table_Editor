@@ -24,6 +24,7 @@ public:
 	Cell(const std::string& input, const int cellNumber);
 	~Cell();
 	std::string GetContent() { return content; }
+	int GetCellNumber() { return CellNumber; }
 
 };
 

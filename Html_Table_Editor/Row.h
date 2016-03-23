@@ -25,6 +25,8 @@ public:
 	~Row();
 
 	int GetRowNumber() { return RowNumber; }
+	int GetCells() { return Cells.size(); }
+	bool RowIsLayout() { return isLayout; }
 
 };
 

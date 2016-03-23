@@ -18,7 +18,7 @@ Table::Table(const std::string& input)
 	try 
 	{
 		_input = Reduce(_input, TableOpenTag, TableCloseTag); 
-		msg->clog << "Table reduce result is:\n" + _input;
+		//msg->clog << "Table reduce result is:\n" + _input;
 		PopulateRows(_input);
 	}
 	catch (const std::exception& e)
@@ -27,6 +27,11 @@ Table::Table(const std::string& input)
 		msg->cerr << "Details: " + (std::string)e.what();
 	}
 
+	msg->csucc << "The table in input has this properties:"
+		<< "has a layout: " + std::to_string(HasLayout())
+	    << "has "+std::to_string(GetRowNumber()) + " rows"
+		<< "has "+std::to_string(GetColumnNumber()) + " columns"
+		<< "with a total of: " + std::to_string(GetColumnNumber() * GetRowNumber()) + " of elements.";
 }
 
 

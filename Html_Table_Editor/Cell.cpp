@@ -12,7 +12,20 @@ http://www.apache.org/licenses/LICENSE-2.0
 
 Cell::Cell(const std::string& input,const int cellNumber) : CellNumber(cellNumber)
 {
-	msg->clog << "Cell " + std::to_string(cellNumber) << ":\n" + input;
+	try
+	{
+		if (CheckForPresence(input,CellOpenTag))
+			content = Reduce(input, CellOpenTag + ">", CellCloseTag);
+		else
+			content = Reduce(input, HCellOpenTag + ">", HCellCloseTag);
+	}
+	catch (const std::exception& e)
+	{
+		msg->cerr << "E0008 - Sorry, something went wrong reading cell "+ std::to_string(cellNumber) +".";
+		msg->cerr << "Details: " + (std::string)e.what();
+	}
+
+	msg->clog << "Cell " + std::to_string(cellNumber) + ":\n" + content;
 }
 
 
