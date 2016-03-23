@@ -149,6 +149,7 @@
     <ClInclude Include="Cell.h" />
     <ClInclude Include="Common.h" />
     <ClInclude Include="CustomExceptions.h" />
+    <ClInclude Include="FileManager.h" />
     <ClInclude Include="Msg.h" />
     <ClInclude Include="Row.h" />
     <ClInclude Include="Table.h" />
@@ -157,6 +158,7 @@
     <ClCompile Include="Cell.cpp" />
     <ClCompile Include="CommonDef.cpp" />
     <ClCompile Include="CustomExceptions.cpp" />
+    <ClCompile Include="FileManager.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Msg.cpp" />
     <ClCompile Include="Row.cpp" />

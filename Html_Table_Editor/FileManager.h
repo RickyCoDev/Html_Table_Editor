@@ -12,18 +12,20 @@ http://www.apache.org/licenses/LICENSE-2.0
 #include "Common.h"
 #include <fstream>
 #include <string>
-#include "CustomException.h"
+#include "CustomExceptions.h"
 class FileManager
 {
 private:
 	const std::string CleanData = "cleandata.txt";
 	const std::string OutPut = "output.txt";
-	std::string ReadFile(const std::string& filename);
-	std::fstream* fstream;
+	std::fstream* myfile;
 	
 public:
 	enum File {cleandata,output };
 	FileManager(File ft);
+	//this constructor MUST be used only when you need to read a file
+	FileManager();
 	~FileManager();
+	std::string ReadFromFile(const std::string& filename);
 };
 
