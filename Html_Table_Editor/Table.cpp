@@ -13,11 +13,13 @@ http://www.apache.org/licenses/LICENSE-2.0
 Table::Table(const std::string& input)
 {
 	GetTable(input);
+	Console::Msg* msg = new Console::Msg{};
 	msg->csucc << "The table in input has this properties:"
 		<< "has a layout: " + std::to_string(HasLayout())
 	    << "has "+std::to_string(GetRowNumber()) + " rows"
 		<< "has "+std::to_string(GetColumnNumber()) + " columns"
-		<< "with a total of: " + std::to_string(GetColumnNumber() * GetRowNumber()) + " of elements.";
+		<< "with a total of: " + std::to_string(GetCellNumber()) + " of cells.";
+	delete msg;
 }
 
 
@@ -43,12 +45,15 @@ void Table::ReplaceKnownHtmlFormattingTags()
 	}
 	catch (const std::exception& e)
 	{
+		Console::Msg* msg = new Console::Msg{};
 		msg->cerr << "E0005 - Sorry, this is not a Html table. Please check your input.";
 		msg->cerr << "Details: " + (std::string)e.what();
+		delete msg;
 		throw e; // prevent the program to continue without an acceptable input
 	}
 }
 
+//generate the rows
 void Table::PopulateRows(const std::string& input, int startPos)
 {
 	std::vector<std::string> StringLines = SplitAt(input, RowCloseTag); // split lines
@@ -75,13 +80,29 @@ void Table::GetTable(const std::string& input)
 	catch (const CustomExceptions::FileError& e)//ignore the line and try to check again the table
 	{
 		ignorepos++;
+
+		Console::Msg* msg = new Console::Msg{};
 		msg->cwarn << "Ignoring line: " + std::to_string(ignorepos);
+		delete msg;
+
 		Rows.clear(); // be sure that all row vector is clear
 		GetTable(input); // try to read again the table
 	}
 	catch (const std::exception& e)
 	{
+		Console::Msg* msg = new Console::Msg{};
 		msg->cerr << "E0006 - Sorry, something went wrong preparing table rows.";
 		msg->cerr << "Details: " + (std::string)e.what();
+		delete msg;
 	}
+}
+
+int Table::GetCellNumber()
+{
+	int temp=0;
+	for (int i = 0; i < Rows.size(); i++)
+	{
+		temp += Rows[i].GetCells();
+	}
+	return temp;
 }

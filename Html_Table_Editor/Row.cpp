@@ -12,6 +12,7 @@ http://www.apache.org/licenses/LICENSE-2.0
 Row::Row(const std::string& input, const int rowNumber) : RowNumber(rowNumber)
 {
 	std::string _input = input;
+	Console::Msg* msg = new Console::Msg{};
 	//input = Reduce(input, ">",""); // remove the open tag part
 	msg->clog << "Row " + std::to_string(RowNumber+1) + ":\n ";
 	try 
@@ -22,6 +23,7 @@ Row::Row(const std::string& input, const int rowNumber) : RowNumber(rowNumber)
 	{
 		msg->cerr << "E0014 - Sorry, wrong table formatting.";
 		msg->cerr << "Details: " + (std::string)e.what();
+		delete msg;
 		throw e;
 	}
 	catch (const std::exception& e)
@@ -29,6 +31,7 @@ Row::Row(const std::string& input, const int rowNumber) : RowNumber(rowNumber)
 		msg->cerr << "E0007 - Sorry, something went wrong reading table row.";
 		msg->cerr << "Details: " + (std::string)e.what();
 	}
+	delete msg;
 }
 
 Row::~Row()
@@ -58,7 +61,7 @@ void Row::PopulateCells(std::string input)
 	if (!CheckForPresence(input, HCellCloseTag) && !CheckForPresence(input, CellCloseTag)) // this is a empty row
 	{
 		if (RowNumber == 0)
-			throw CustomExceptions::FileError("E00013 - First line can't be empty!");
+			throw CustomExceptions::FileError("E00013 - First line can't be empty!"); // different error solution
 		throw CustomExceptions::ReadError("E0012 - This row is empty!");
 
 	}

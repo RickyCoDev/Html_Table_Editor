@@ -12,6 +12,7 @@ http://www.apache.org/licenses/LICENSE-2.0
 
 Cell::Cell(const std::string& input,const int cellNumber) : CellNumber(cellNumber)
 {
+	Console::Msg* msg = new Console::Msg{};
 	try
 	{
 		if (CheckForPresence(input,CellOpenTag))
@@ -21,6 +22,7 @@ Cell::Cell(const std::string& input,const int cellNumber) : CellNumber(cellNumbe
 	}
 	catch (const std::exception& e)
 	{
+
 		msg->cerr << "E0008 - Sorry, something went wrong reading cell "+ std::to_string(cellNumber) +".";
 		msg->cerr << "Details: " + (std::string)e.what();
 		msg->cerr << "An empty cell will be created!";
@@ -28,6 +30,7 @@ Cell::Cell(const std::string& input,const int cellNumber) : CellNumber(cellNumbe
 	}
 
 	msg->clog << "Cell " + std::to_string(cellNumber+1) + ":\n" + content;
+	delete msg;
 }
 
 

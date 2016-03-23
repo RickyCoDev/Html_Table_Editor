@@ -17,6 +17,7 @@ http://www.apache.org/licenses/LICENSE-2.0
 
 int main()
 {
+	Console::Msg* msg = new Console::Msg{};
 	msg->WelcomeMessage();
 	try 
 	{
@@ -31,8 +32,22 @@ int main()
 		return 1;
 	}
 
-
 	std::string m;
-	std::cin >> m;
+	std::vector<std::string> args;
+	//Commands* cmds = new Commands{};
+	while (m != "quit")
+	{
+		std::cin >> m;
+		//seach for command
+		try 
+		{
+			cmds->RunCommand(m,args); // not able to handle parameter for the moment
+		}
+		catch (const std::exception& e)
+		{
+			msg->cerr<<e.what();
+		}
+	}
+	delete msg;
 	return 0;
 }

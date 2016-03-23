@@ -9,7 +9,8 @@ http://www.apache.org/licenses/LICENSE-2.0
 */
 
 #include"Common.h"
-Cmsg::Msg* msg = new Cmsg::Msg{};
+Console::Msg* msg = new Console::Msg{};
+Commands* cmds = new Commands{};
 
 std::string Replace(const std::string& input, const std::string& StringToReplace, const std::string& Replacer)
 {

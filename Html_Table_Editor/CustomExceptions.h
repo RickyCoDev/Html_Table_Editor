@@ -15,6 +15,10 @@ class CustomExceptions
 {
 public:
 	//error class
+
+
+
+	//error class
 	class ReadError : public std::exception
 	{
 	public:
@@ -29,6 +33,15 @@ public:
 	public:
 		const char* what() const override { return m.c_str(); };
 		FileError(const std::string message) { m = message; }
+	private:
+		std::string m;
+	};
+
+	class CmdError : public std::exception
+	{
+	public:
+		const char* what() const override { return m.c_str(); };
+		CmdError(const std::string message) { m = message; }
 	private:
 		std::string m;
 	};

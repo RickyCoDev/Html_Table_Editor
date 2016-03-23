@@ -29,8 +29,10 @@ FileManager::FileManager(File ft)
 	}
 	catch(const std::exception& e)
 	{
+		Console::Msg* msg = new Console::Msg{};
 		msg->cerr << "E0010 - Sorry, can't open/create the output file.";
 		msg->cerr << "Details: " + (std::string)e.what();
+		delete msg;
 		throw e;
 	}
 }
@@ -57,11 +59,15 @@ std::string FileManager::ReadFromFile(const std::string& filename)
 	}
 	catch (const std::exception& e)
 	{
+		Console::Msg* msg = new Console::Msg{};
 		msg->cerr << "E0011 - Sorry, can't read input file.";
 		msg->cerr << "Details: " + (std::string)e.what();
+		delete msg;
 		throw e; // prevent the program to run with this error
 	}
 	myfile->close();
+	Console::Msg* msg = new Console::Msg{};
 	msg->clog << "Input: " + fileContent+"\n";
+	delete msg;
 	return fileContent;
 }

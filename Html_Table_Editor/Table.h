@@ -24,13 +24,16 @@ private:
 	int ignorepos = 0;
 	//replace all html tags with custom defined tags
 	void ReplaceKnownHtmlFormattingTags();
+	//generate the rows
 	void PopulateRows(const std::string& input, int startPos);
+	//get table content
 	void GetTable(const std::string& input);
 public:
 	Table(const std::string& input);
 	~Table();
 	int GetRowNumber() { return Rows.size(); }
 	int GetColumnNumber() { return Rows[0].GetCells(); }
+	int GetCellNumber();
 	bool HasLayout() { return Rows[0].RowIsLayout(); }
 };
 

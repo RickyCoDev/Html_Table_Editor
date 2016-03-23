@@ -93,6 +93,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>fltk\fltk.lib;fltk\fltkforms.lib;fltk\fltkgl.lib;fltk\fltkimages.lib;fltk\fltkjpeg.lib;fltk\fltkpng.lib;fltk\fltkzlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -147,6 +148,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Cell.h" />
+    <ClInclude Include="Commands.h" />
     <ClInclude Include="Common.h" />
     <ClInclude Include="CustomExceptions.h" />
     <ClInclude Include="FileManager.h" />
@@ -156,6 +158,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Cell.cpp" />
+    <ClCompile Include="Commands.cpp" />
     <ClCompile Include="CommonDef.cpp" />
     <ClCompile Include="CustomExceptions.cpp" />
     <ClCompile Include="FileManager.cpp" />

@@ -9,7 +9,8 @@ http://www.apache.org/licenses/LICENSE-2.0
 */
 #pragma once
 #include <iostream>
-#include "Common.h"
+#include "Msg.h"
+//#include "Common.h"
 #include <fstream>
 #include <string>
 #include "CustomExceptions.h"
@@ -27,5 +28,7 @@ public:
 	FileManager();
 	~FileManager();
 	std::string ReadFromFile(const std::string& filename);
+	//writes a line on the open file
+	void Write(std::string line);
 };
 

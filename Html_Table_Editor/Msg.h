@@ -23,13 +23,13 @@ http://www.apache.org/licenses/LICENSE-2.0
 #define BLUE  "\x1b[34m"
 #define DEFAULT  "\x1b[0m"
 #endif
-namespace Cmsg
+namespace Console
 {
 	class Msg
 	{
 	private:
 		//available colors
-		static enum Color { red, yellow, green, blue, default };
+		enum Color { red, yellow, green, blue, default };
 
 		class OutStream
 		{

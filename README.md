@@ -8,14 +8,13 @@ Make sure to check the fetures list to see the actual status of the development.
 
 
 # Features
-- [ ] Read Html tables from a text/html file
+- [x] Read Html tables from a text/html file
 - [ ] Edit the table layout
 - [ ] Add/Remove Lines
 - [ ] Add/Remove Rows
 - [ ] Set/Edit content of a line
 - [ ] Set/Edit content of a row
 - [ ] Set/Edit content of a specific cell
-- [ ] Display a preview of the table on a gui window
 - [ ] Write the table on a new html file 
 
 # Download

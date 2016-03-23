@@ -10,9 +10,9 @@ http://www.apache.org/licenses/LICENSE-2.0
 
 #include "Msg.h"
 
-Cmsg::Msg::Msg() {};
+Console::Msg::Msg() {};
 
-void Cmsg::Msg::OutStream::ColoredOutput(std::string Message, Color col)
+void Console::Msg::OutStream::ColoredOutput(std::string Message, Color col)
 {
 	//platform dependent compilation to grant cross platform colors
 #if _WIN32
@@ -56,18 +56,18 @@ void Cmsg::Msg::OutStream::ColoredOutput(std::string Message, Color col)
 }
 
 
-Cmsg::Msg::OutStream::OutStream(Color col)
+Console::Msg::OutStream::OutStream(Color col)
 {
 	_col = col;
 	switch (col)
 	{
-	case Cmsg::Msg::red:
+	case Console::Msg::red:
 		prefix = "**Error** ";
 		break;
-	case Cmsg::Msg::yellow:
+	case Console::Msg::yellow:
 		prefix = "**Warning** ";
 		break;
-	case Cmsg::Msg::default:
+	case Console::Msg::default:
 		prefix = "**Log** ";
 		break;
 	default:
@@ -75,7 +75,7 @@ Cmsg::Msg::OutStream::OutStream(Color col)
 	}
 }
 
-Cmsg::Msg::OutStream& Cmsg::Msg::OutStream::operator<< (const std::string& _msg)
+Console::Msg::OutStream& Console::Msg::OutStream::operator<< (const std::string& _msg)
 {
 	if (_col != Color::default)
 		ColoredOutput(prefix+_msg+"\n", _col);
@@ -84,7 +84,7 @@ Cmsg::Msg::OutStream& Cmsg::Msg::OutStream::operator<< (const std::string& _msg)
 	return *this;
 }
 
-void Cmsg::Msg::WelcomeMessage()
+void Console::Msg::WelcomeMessage()
 {
 	csucc << "Html Table Editor" << "https://github.com/RickyCoDev/Html_Table_Editor" <<"\nCopyright (c) 2016 RickyCoDev"<<"Licenced under Apache 2.0 Licence\n";
 }

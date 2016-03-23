@@ -2,5 +2,5 @@
 
 void foo()
 {
-	msg->cerr << "Dat pig";
+	//msg->cerr << "Dat pig";
 }

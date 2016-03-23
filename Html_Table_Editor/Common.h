@@ -12,11 +12,14 @@
 #ifndef Common_H // prevent multiple declarations
 #define Common_H
 
-#include "Msg.h"
 #include "CustomExceptions.h"
+#include <string>
 #include <vector>
+#include "Commands.h"
 
-extern Cmsg::Msg* msg;
+//extern Cmsg::Msg* msg;
+
+extern Commands* cmds;
 
 const std::string TableOpenTag = "|t|";
 const std::string TableCloseTag = "|!t|";

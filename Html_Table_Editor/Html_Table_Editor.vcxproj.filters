@@ -36,6 +36,9 @@
     <ClInclude Include="FileManager.h">
       <Filter>File di intestazione</Filter>
     </ClInclude>
+    <ClInclude Include="Commands.h">
+      <Filter>File di intestazione</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Msg.cpp">
@@ -63,6 +66,9 @@
       <Filter>File di origine</Filter>
     </ClCompile>
     <ClCompile Include="FileManager.cpp">
+      <Filter>File di origine</Filter>
+    </ClCompile>
+    <ClCompile Include="Commands.cpp">
       <Filter>File di origine</Filter>
     </ClCompile>
   </ItemGroup>
