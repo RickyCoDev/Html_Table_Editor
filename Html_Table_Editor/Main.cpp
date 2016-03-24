@@ -13,6 +13,7 @@ http://www.apache.org/licenses/LICENSE-2.0
 #include "Common.h"
 #include "Table.h"
 #include "FileManager.h"
+#include <sstream>
 //Cmsg::Msg* msg = new Cmsg::Msg{};
 
 int main()
@@ -34,14 +35,25 @@ int main()
 
 	std::string m;
 	std::vector<std::string> args;
-	//Commands* cmds = new Commands{};
+	std::string CurCmd;
 	while (m != "quit")
 	{
-		std::cin >> m;
+	   std::getline(std::cin, m);// fill the input vector with command and args
+	   std::stringstream s{ m };
+	   while (s >> m)
+	   {
+		   //msg->clog << "-" + m + "-";
+		   args.push_back(m);
+	   }
+
 		//seach for command
 		try 
 		{
-			cmds->RunCommand(m,args); // not able to handle parameter for the moment
+			CurCmd = args[0]; // get the command that is stored in the first pos
+			args.erase(args.begin(), args.begin() + 1); // remove 1st element. It's not a arg
+			//msg->clog << "Current cmd: "+CurCmd+" has " + std::to_string(args.size())+" args";
+			cmds->RunCommand(CurCmd,args); // not able to handle parameter for the moment
+			args.clear(); //remove cmd buffer
 		}
 		catch (const std::exception& e)
 		{

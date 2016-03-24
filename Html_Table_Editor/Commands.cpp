@@ -46,7 +46,7 @@ void Commands::TestCmdCallback(std::vector<std::string> args)
 	Console::Msg* msg = new Console::Msg{};
 	if (args.size() > 0)
 	{
-		msg->cwarn << "This command has no paramenters, ignoring the current one(s)!";
+		msg->cwarn << "This command has no paramenter(s), ignoring the current one(s)!";
 		args.clear();
 	}
 	msg->csucc << "This is a test message. The commands are working correctly!";
