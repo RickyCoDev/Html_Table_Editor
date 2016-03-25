@@ -113,6 +113,11 @@ int Table::GetCellNumber()
 void Table::WriteRawData(std::vector<std::string> args)
 {
 	FileManager* fm = new FileManager{ FileManager::File::cleandata };
+	fm->Write("RAW DATA\n\n");
+	fm->Write("Extracted form a html table using Html Table Editor by RickyCoDev\n");
+	fm->Write(" Copyright (c) 2016 RickyCoDev\n");
+	fm->Write(" Licenced under Apache 2.0 Licence\n");
+	fm->Write("Please report any issues at: https://github.com/RickyCoDev/Html_Table_Editor\n\n");
 	for (int i = 0; i < Rows.size();i++)
 	{
 		fm->Write(Rows[i].GetRowContent(OutputKind::clean)+"\n");
