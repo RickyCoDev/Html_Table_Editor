@@ -31,9 +31,14 @@ private:
 public:
 	Table(const std::string& input);
 	~Table();
+
 	int GetRowNumber() { return Rows.size(); }
 	int GetColumnNumber() { return Rows[0].GetCells(); }
 	int GetCellNumber();
 	bool HasLayout() { return Rows[0].RowIsLayout(); }
+
+	void WriteRawData(std::vector<std::string> args); //paste the raw data on a file
+	void WriteOutput(); //creates the new table
+
 };
 

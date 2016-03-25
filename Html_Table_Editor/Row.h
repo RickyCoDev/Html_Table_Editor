@@ -21,12 +21,15 @@ private:
 
 	void PopulateCells(std::string input);
 public:
-	Row(const std::string& input,const int rowNumber);
+	Row(const std::string& input, const int rowNumber);
 	~Row();
 
 	int GetRowNumber() { return RowNumber; }
 	int GetCells() { return Cells.size(); }
 	bool RowIsLayout() { return isLayout; }
+	//Cell GetCell(const int& index) { return Cells[index]; }; //TODO: add error handlig for out of range
+	std::string GetRowContent(OutputKind kind);
+
 
 };
 

@@ -8,7 +8,9 @@ Make sure to check the fetures list to see the actual status of the development.
 
 
 # Features
+- [ ] Custom path for input file
 - [x] Read Html tables from a text/html file
+- [x] Write raw data recovered from a html table
 - [ ] Edit the table layout
 - [ ] Add/Remove Lines
 - [ ] Add/Remove Rows

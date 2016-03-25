@@ -20,6 +20,7 @@ Table::Table(const std::string& input)
 		<< "has "+std::to_string(GetColumnNumber()) + " columns"
 		<< "with a total of: " + std::to_string(GetCellNumber()) + " of cells.";
 	delete msg;
+	cmds->RegisterCommand("WriteRawData", std::bind(&Table::WriteRawData, this, std::placeholders::_1));
 }
 
 
@@ -105,4 +106,24 @@ int Table::GetCellNumber()
 		temp += Rows[i].GetCells();
 	}
 	return temp;
+}
+
+
+
+void Table::WriteRawData(std::vector<std::string> args)
+{
+	FileManager* fm = new FileManager{ FileManager::File::cleandata };
+	for (int i = 0; i < Rows.size();i++)
+	{
+		fm->Write(Rows[i].GetRowContent(OutputKind::clean)+"\n");
+	}
+	delete fm;
+	Console::Msg* msg = new Console::Msg{};
+	if (args.size() > 0)
+	{
+		msg->cwarn << "This command takes no parameter(s), ignoring the current one(s).";
+		args.clear();
+	}
+	msg->csucc << "The raw data has been written on a file next to this executable.";
+	delete msg;
 }

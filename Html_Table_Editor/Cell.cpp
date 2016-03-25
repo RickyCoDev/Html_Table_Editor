@@ -38,3 +38,24 @@ Cell::~Cell()
 {
 }
 
+std::string Cell::GetContentForOutPut(OutputKind kind, bool isLayout)
+{
+	std::string OpenTag, CloseTag;
+	switch (kind)
+	{
+	case OutputKind::clean:
+		OpenTag = ""; CloseTag = " |";
+		break;
+	case OutputKind::normal:
+		if (isLayout)
+		{
+			OpenTag = "<th>"; CloseTag = "</th>";
+		}
+		else
+		{
+			OpenTag = "<td>"; CloseTag = "</td>";
+		}
+		break;
+	}
+	return OpenTag + content + CloseTag;
+}

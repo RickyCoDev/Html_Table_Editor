@@ -12,6 +12,7 @@ http://www.apache.org/licenses/LICENSE-2.0
 #include<string>
 #include<iostream>
 #include"Common.h"
+#include "FileManager.h"
 
 class Cell
 {
@@ -25,6 +26,8 @@ public:
 	~Cell();
 	std::string GetContent() { return content; }
 	int GetCellNumber() { return CellNumber; }
+	//get the content with a open and close tag
+	std::string GetContentForOutPut(OutputKind kind, bool isLayout);
 
 };
 

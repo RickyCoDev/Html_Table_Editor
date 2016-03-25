@@ -16,7 +16,8 @@ FileManager::FileManager() {
 FileManager::FileManager(File ft)
 {
 	myfile = new std::fstream();
-	try {
+	try
+	{
 		switch (ft)
 		{
 		case FileManager::cleandata:
@@ -70,4 +71,12 @@ std::string FileManager::ReadFromFile(const std::string& filename)
 	msg->clog << "Input: " + fileContent+"\n";
 	delete msg;
 	return fileContent;
+}
+
+void FileManager::Write(std::string line)
+{
+	if (*myfile)
+		*myfile << line;
+	else
+		throw CustomExceptions::FileError("E0016 - Unable to write on file!");
 }

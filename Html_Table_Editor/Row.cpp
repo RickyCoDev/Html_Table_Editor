@@ -73,3 +73,25 @@ void Row::PopulateCells(std::string input)
 		Cells.push_back(c);
 	}
 }
+
+std::string Row::GetRowContent(OutputKind kind)
+{
+	std::string OpenTag,CloseTag,temp;
+	switch (kind)
+	{
+	case OutputKind::clean:
+		OpenTag = "Row "+std::to_string(RowNumber)+": | "; CloseTag = "";
+		break;
+	case OutputKind::normal: //TODO: add style string for rows
+		OpenTag = "<tr>";  CloseTag = "</tr>";
+		break;
+	}
+	temp += OpenTag;
+	for (int i = 0; i < Cells.size(); i++)
+	{
+		temp += Cells[i].GetContentForOutPut(kind, isLayout);
+	}
+	temp += CloseTag;
+	return temp;
+
+}

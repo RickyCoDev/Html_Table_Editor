@@ -32,6 +32,10 @@ const std::string RowCloseTag = "|!r|";
 
 const std::string CellOpenTag = "|el|";
 const std::string CellCloseTag = "|!el|";
+enum OutputKind
+{
+	clean, normal
+};
 
 //replace all substring with a desired one
 std::string Replace(const std::string& input, const std::string& StringToReplace, const std::string& Replacer);
