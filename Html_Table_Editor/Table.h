@@ -1,5 +1,5 @@
 /*
-Html_Table_Builder
+Html_Table_Editor
 https://github.com/RickyCoDev/Html_Table_Editor
 
 Copyright (c) 2016 RickyCoDev
@@ -15,12 +15,14 @@ http://www.apache.org/licenses/LICENSE-2.0
 #include "Common.h"
 #include "CustomExceptions.h"
 #include "Row.h";
+#include <sstream>
 
 class Table
 {
 private:
 	std::string _input;
 	std::vector<Row> Rows;
+	Console::Msg* msg;
 	int ignorepos = 0;
 	//replace all html tags with custom defined tags
 	void ReplaceKnownHtmlFormattingTags();
@@ -28,6 +30,12 @@ private:
 	void PopulateRows(const std::string& input, int startPos);
 	//get table content
 	void GetTable(const std::string& input);
+
+	void AddRowAtPos(unsigned pos,Row& r);
+	void Handler_AddRowCMD(std::vector<std::string>& args);
+
+	//set new row numbers
+	void ReEnumRows();
 public:
 	Table(const std::string& input);
 	~Table();
@@ -37,8 +45,14 @@ public:
 	int GetCellNumber();
 	bool HasLayout() { return Rows[0].RowIsLayout(); }
 
-	void WriteRawData(std::vector<std::string> args); //paste the raw data on a file
-	void WriteOutput(); //creates the new table
+	//handle all add cmds
+	void CMD_Add(std::vector<std::string> args); //chose the correct handler based on 1st parameter
+
+	void CMD_TableProps(std::vector<std::string> args); //Print table properties
+
+	void CMD_WriteRawData(std::vector<std::string> args); //paste the raw data on a file
+	void CMD_WriteOutput(std::vector<std::string> args); //creates the new table
+
 
 };
 

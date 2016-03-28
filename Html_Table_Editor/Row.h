@@ -1,5 +1,5 @@
 /*
-Html_Table_Builder
+Html_Table_Editor
 https://github.com/RickyCoDev/Html_Table_Editor
 
 Copyright (c) 2016 RickyCoDev
@@ -22,8 +22,11 @@ private:
 	void PopulateCells(std::string input);
 public:
 	Row(const std::string& input, const int rowNumber);
+	//create a row with number of empty cells
+	Row(int cells);
 	~Row();
 
+	void SetRowNumber(int rowNumber) { RowNumber = rowNumber; }
 	int GetRowNumber() { return RowNumber; }
 	int GetCells() { return Cells.size(); }
 	bool RowIsLayout() { return isLayout; }

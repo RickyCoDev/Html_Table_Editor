@@ -1,5 +1,5 @@
 /*
-Html_Table_Builder
+Html_Table_Editor
 https://github.com/RickyCoDev/Html_Table_Editor
 
 Copyright (c) 2016 RickyCoDev
@@ -33,6 +33,10 @@ Cell::Cell(const std::string& input,const int cellNumber) : CellNumber(cellNumbe
 	delete msg;
 }
 
+Cell::Cell()
+{
+
+}
 
 Cell::~Cell()
 {
@@ -44,7 +48,7 @@ std::string Cell::GetContentForOutPut(OutputKind kind, bool isLayout)
 	switch (kind)
 	{
 	case OutputKind::clean:
-		OpenTag = ""; CloseTag = " |";
+		OpenTag = " "; CloseTag = " |";
 		break;
 	case OutputKind::normal:
 		if (isLayout)

@@ -1,5 +1,5 @@
 /*
-Html_Table_Builder
+Html_Table_Editor
 https://github.com/RickyCoDev/Html_Table_Editor
 
 Copyright (c) 2016 RickyCoDev
@@ -21,7 +21,7 @@ Row::Row(const std::string& input, const int rowNumber) : RowNumber(rowNumber)
 	}
 	catch (const CustomExceptions::FileError& e)
 	{
-		msg->cerr << "E0014 - Sorry, wrong table formatting.";
+		msg->cerr << "E0014 - Sorry, wrong row formatting.";
 		msg->cerr << "Details: " + (std::string)e.what();
 		delete msg;
 		throw e;
@@ -32,6 +32,15 @@ Row::Row(const std::string& input, const int rowNumber) : RowNumber(rowNumber)
 		msg->cerr << "Details: " + (std::string)e.what();
 	}
 	delete msg;
+}
+
+Row::Row(int cells)
+{
+	for (int i=0; i < cells;i++)
+	{
+		Cell c = Cell{};
+		Cells.push_back(c);
+	}
 }
 
 Row::~Row()
@@ -80,7 +89,7 @@ std::string Row::GetRowContent(OutputKind kind)
 	switch (kind)
 	{
 	case OutputKind::clean:
-		OpenTag = "Row "+std::to_string(RowNumber)+": | "; CloseTag = "";
+		OpenTag = "Row "+std::to_string(RowNumber+1)+": |"; CloseTag = "";
 		break;
 	case OutputKind::normal: //TODO: add style string for rows
 		OpenTag = "<tr>";  CloseTag = "</tr>";

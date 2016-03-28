@@ -1,5 +1,5 @@
 /*
- Html_Table_Builder
+ Html_Table_Editor
  https://github.com/RickyCoDev/Html_Table_Editor
 
  Copyright (c) 2016 RickyCoDev
