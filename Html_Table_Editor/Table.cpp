@@ -24,6 +24,7 @@ Table::Table(const std::string& input)
 	cmds->RegisterCommand("WriteRaw", std::bind(&Table::CMD_WriteRawData, this, std::placeholders::_1));
 	cmds->RegisterCommand("add", std::bind(&Table::CMD_Add, this, std::placeholders::_1));
 	cmds->RegisterCommand("Tprops", std::bind(&Table::CMD_TableProps, this, std::placeholders::_1));
+
 }
 
 
@@ -137,9 +138,17 @@ void Table::CMD_WriteRawData(std::vector<std::string> args)
 void Table::CMD_Add(std::vector<std::string> args)
 {
 	if (args.size() < 1) throw CustomExceptions::CmdError("E0017 - Missing parameters for add command");
+	
+	//call row handler
 	if (args[0] == "row" || args[0] == "erow")
 	{
 		Handler_AddRowCMD(args);
+		return;
+	}
+	//call column handler
+	if (args[0] == "col")
+	{
+		Handler_AddColumnCMD(args);
 		return;
 	}
 
@@ -173,6 +182,21 @@ void Table::Handler_AddRowCMD(std::vector<std::string>& args)
 	}
 }
 
+void Table::Handler_AddColumnCMD(std::vector<std::string>& args)
+{
+	if(args.size()>2) msg->cwarn << "Only two paramters are required, ingoring the other one(s)";
+
+	unsigned pos = Rows[0].GetCells();
+	if (args.size() > 1)
+	{
+		std::stringstream{ args[1] } >> pos;
+	}
+
+	AddEmptyColumnAtPos(pos);
+	msg->csucc << "Added empty column at: " + std::to_string(pos);
+}
+
+
 void Table::AddRowAtPos(unsigned pos,Row& r)
 {
 	if (pos < Rows.size()) // check if the row is inside the table
@@ -187,6 +211,14 @@ void Table::AddRowAtPos(unsigned pos,Row& r)
 	Rows.push_back(r);
 	ReEnumRows();
 	msg->csucc << "Added row at the end of table";
+}
+
+void Table::AddEmptyColumnAtPos(unsigned pos)
+{
+	for (int i = 0; i < Rows.size(); i++)
+	{
+		Rows[i].AddEmptyCell(pos+1);
+	}
 }
 
 void Table::CMD_TableProps(std::vector<std::string> args)

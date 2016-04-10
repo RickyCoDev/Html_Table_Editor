@@ -58,6 +58,7 @@ int main()
 		catch (const std::exception& e)
 		{
 			msg->cerr<<e.what();
+			args.clear(); //remove cmd buffer
 		}
 	}
 	delete msg;

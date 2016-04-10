@@ -20,6 +20,9 @@ private:
 	std::vector<Cell> Cells;
 
 	void PopulateCells(std::string input);
+	//reset cell numbers
+	void ReEnumCells();
+
 public:
 	Row(const std::string& input, const int rowNumber);
 	//create a row with number of empty cells
@@ -32,6 +35,9 @@ public:
 	bool RowIsLayout() { return isLayout; }
 	//Cell GetCell(const int& index) { return Cells[index]; }; //TODO: add error handlig for out of range
 	std::string GetRowContent(OutputKind kind);
+
+	//adds a empty cell
+	void AddEmptyCell(unsigned pos);
 
 
 };

@@ -13,7 +13,7 @@ Make sure to check the fetures list to see the actual status of the development.
 - [x] Write raw data recovered from a html table
 - [x] Show table properties
 - [ ] Edit the table layout
-- [ ] Add columns
+- [x] Add columns
 - [ ] Remove columns
 - [x] Add rows with cells
 - [x] Add empty rows

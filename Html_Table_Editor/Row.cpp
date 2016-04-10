@@ -104,3 +104,23 @@ std::string Row::GetRowContent(OutputKind kind)
 	return temp;
 
 }
+
+void Row::AddEmptyCell(unsigned pos)
+{
+	if (Cells.size() == 0) return; //don't add cells to empty rows
+	Cell c = Cell{};
+
+	if (pos > Cells.size()) // check for out of table
+		pos = Cells.size();
+
+	Cells.insert(Cells.begin() + pos, c);
+	ReEnumCells();
+}
+
+void Row::ReEnumCells()
+{
+	for (int i = 0; i < Cells.size(); i++)
+	{
+		Cells[i].SetCellNumber(i);
+	}
+}

@@ -27,6 +27,7 @@ public:
 	Cell();
 	std::string GetContent() { return content; }
 	int GetCellNumber() { return CellNumber; }
+	void SetCellNumber(unsigned num) { CellNumber = num; }
 	//get the content with a open and close tag
 	std::string GetContentForOutPut(OutputKind kind, bool isLayout);
 

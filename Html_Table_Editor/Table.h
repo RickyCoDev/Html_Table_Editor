@@ -30,12 +30,19 @@ private:
 	void PopulateRows(const std::string& input, int startPos);
 	//get table content
 	void GetTable(const std::string& input);
-
-	void AddRowAtPos(unsigned pos,Row& r);
-	void Handler_AddRowCMD(std::vector<std::string>& args);
-
 	//set new row numbers
 	void ReEnumRows();
+
+	void AddRowAtPos(unsigned pos,Row& r);
+	void AddEmptyColumnAtPos(unsigned pos);
+
+	//handlers
+	//handle add row cmds
+	void Handler_AddRowCMD(std::vector<std::string>& args);
+	//handle add cell cmds
+	void Handler_AddColumnCMD(std::vector<std::string>& args);
+
+
 public:
 	Table(const std::string& input);
 	~Table();
@@ -52,7 +59,6 @@ public:
 
 	void CMD_WriteRawData(std::vector<std::string> args); //paste the raw data on a file
 	void CMD_WriteOutput(std::vector<std::string> args); //creates the new table
-
 
 };
 
