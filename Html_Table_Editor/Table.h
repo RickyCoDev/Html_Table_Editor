@@ -36,11 +36,20 @@ private:
 	void AddRowAtPos(unsigned pos,Row& r);
 	void AddEmptyColumnAtPos(unsigned pos);
 
+	void RemoveRow(unsigned pos);
+	void RemoveColumn(unsigned pos);
+
 	//handlers
+	//Remove the fist item of the vector that is gaven as input
+	void URemoveFirstArg(std::vector<std::string>& args);
 	//handle add row cmds
 	void Handler_AddRowCMD(std::vector<std::string>& args);
-	//handle add cell cmds
+	//handle add coll cmds
 	void Handler_AddColumnCMD(std::vector<std::string>& args);
+	//handle rm row
+	void Handler_RemoveRowCMD(std::vector<std::string>& args);
+	//handle rm coll
+	void Handler_RemoveColumnCMD(std::vector<std::string>& args);
 
 
 public:
@@ -54,6 +63,8 @@ public:
 
 	//handle all add cmds
 	void CMD_Add(std::vector<std::string> args); //chose the correct handler based on 1st parameter
+
+	void CMD_Rm(std::vector<std::string> args); //chose the correct handler based on 1st parameter
 
 	void CMD_TableProps(std::vector<std::string> args); //Print table properties
 

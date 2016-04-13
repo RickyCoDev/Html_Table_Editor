@@ -24,6 +24,7 @@ Table::Table(const std::string& input)
 	cmds->RegisterCommand("WriteRaw", std::bind(&Table::CMD_WriteRawData, this, std::placeholders::_1));
 	cmds->RegisterCommand("add", std::bind(&Table::CMD_Add, this, std::placeholders::_1));
 	cmds->RegisterCommand("Tprops", std::bind(&Table::CMD_TableProps, this, std::placeholders::_1));
+	cmds->RegisterCommand("rm", std::bind(&Table::CMD_Rm, this, std::placeholders::_1));
 
 }
 
@@ -110,7 +111,9 @@ int Table::GetCellNumber()
 void Table::ReEnumRows()
 {
 	for (int i = 0; i < Rows.size(); i++)
+	{
 		Rows[i].SetRowNumber(i);
+	}
 }
 
 void Table::CMD_WriteRawData(std::vector<std::string> args)
@@ -135,6 +138,11 @@ void Table::CMD_WriteRawData(std::vector<std::string> args)
 	msg->csucc << "The raw data has been written on a file next to this executable.";
 }
 
+void Table::URemoveFirstArg(std::vector<std::string>& args)
+{
+	args.erase(args.begin());
+}
+
 void Table::CMD_Add(std::vector<std::string> args)
 {
 	if (args.size() < 1) throw CustomExceptions::CmdError("E0017 - Missing parameters for add command");
@@ -148,6 +156,7 @@ void Table::CMD_Add(std::vector<std::string> args)
 	//call column handler
 	if (args[0] == "col")
 	{
+		URemoveFirstArg(args);
 		Handler_AddColumnCMD(args);
 		return;
 	}
@@ -158,10 +167,10 @@ void Table::CMD_Add(std::vector<std::string> args)
 
 void Table::Handler_AddRowCMD(std::vector<std::string>& args)
 {
-	int InsertPos = Rows.size(); //end of table
+	int InsertPos = Rows.size()+1; //end of table, +1 is required because later this number ios decreased by 1
 	if (args.size() > 2)
 	{
-		msg->cwarn<<"Only two paramters are required, ingoring the other one(s)";
+		msg->cwarn<<"Only one paramter is required, ingoring the other one(s)";
 	}
 
 	if (args.size() > 1)
@@ -184,16 +193,16 @@ void Table::Handler_AddRowCMD(std::vector<std::string>& args)
 
 void Table::Handler_AddColumnCMD(std::vector<std::string>& args)
 {
-	if(args.size()>2) msg->cwarn << "Only two paramters are required, ingoring the other one(s)";
+	if(args.size()>1) msg->cwarn << "Only one paramter is required, ingoring the other one(s)";
 
 	unsigned pos = Rows[0].GetCells();
-	if (args.size() > 1)
+	if (args.size() > 0)
 	{
-		std::stringstream{ args[1] } >> pos;
-	}
+		std::stringstream{ args[0] } >> pos;
 
+	}
+	msg->clog << "Col pos: " + std::to_string(pos);
 	AddEmptyColumnAtPos(pos);
-	msg->csucc << "Added empty column at: " + std::to_string(pos);
 }
 
 
@@ -215,10 +224,13 @@ void Table::AddRowAtPos(unsigned pos,Row& r)
 
 void Table::AddEmptyColumnAtPos(unsigned pos)
 {
+	if (pos > Rows[0].GetCells()) pos = Rows[0].GetCells()+1;
+
 	for (int i = 0; i < Rows.size(); i++)
 	{
-		Rows[i].AddEmptyCell(pos+1);
+		Rows[i].AddEmptyCell(pos-1);
 	}
+	msg->csucc << "Added empty column at: " + std::to_string(pos);
 }
 
 void Table::CMD_TableProps(std::vector<std::string> args)
@@ -228,4 +240,44 @@ void Table::CMD_TableProps(std::vector<std::string> args)
 		<< "has a layout: " + layout
 		<< "has " + std::to_string(GetRowNumber()) + " rows and " + std::to_string(GetColumnNumber()) + " columns"
 		<< "with a total of: " + std::to_string(GetCellNumber()) + " of cells.";
+}
+
+void Table::CMD_Rm(std::vector<std::string> args)
+{
+	if(args.size() < 1) if (args.size() < 1) throw CustomExceptions::CmdError("E0017 - Missing parameters for add command");
+
+	if (args[0] == "row")
+	{
+		URemoveFirstArg(args);
+		Handler_RemoveRowCMD(args);
+		return;
+	}
+	if (args[0] == "col")
+	{
+		URemoveFirstArg(args);
+		//Handler_RemoveColumnCMD(args);
+		return;
+	}
+
+	//if we get here something is wrong with parametes.
+	throw CustomExceptions::CmdError("E0018 - Wrong paramets");
+}
+
+void Table::Handler_RemoveRowCMD(std::vector<std::string>& args)
+{
+	unsigned RmPos = Rows.size();
+	if (args.size() > 1) msg->cwarn << "Only one paramter is required, ingoring the other one(s)";
+	if (args.size() > 0)
+		std::stringstream{ args[0] } >> RmPos;
+	RemoveRow(RmPos-1); // remove 1 to translate to machine position
+}
+
+void Table::RemoveRow(unsigned pos)
+{
+	if (Rows.size() == 1) throw CustomExceptions::CmdError("E0019 - You can't delete all the table");
+
+	if (pos > Rows.size()) pos = Rows.size()-1;
+	Rows.erase(Rows.begin() + pos);
+	ReEnumRows();
+	msg->csucc << "Removed row at: " + std::to_string(pos+1);
 }

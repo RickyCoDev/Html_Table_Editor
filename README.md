@@ -17,7 +17,7 @@ Make sure to check the fetures list to see the actual status of the development.
 - [ ] Remove columns
 - [x] Add rows with cells
 - [x] Add empty rows
-- [ ] Remove rows
+- [x] Remove rows
 - [ ] Set content of a column
 - [ ] Edit content of a column
 - [ ] Set content of a row
@@ -29,9 +29,8 @@ Make sure to check the fetures list to see the actual status of the development.
 # Download
 At the moment I don't offer any binary downloads, you have to compile the code to get the program running. Please check the [download page of the wiki](https://github.com/RickyCoDev/Html_Table_Editor/wiki/Download).
 
-## Project status
+## Build status
 [![Build status](https://ci.appveyor.com/api/projects/status/gao8c2jqu3tftuft?svg=true)](https://ci.appveyor.com/project/RickyCoDev/html-table-editor)
-[![Stories in Ready](https://badge.waffle.io/RickyCoDev/Html_Table_Editor.png?label=ready&title=Ready)](https://waffle.io/RickyCoDev/Html_Table_Editor)
 
 # Getting started
 
@@ -39,6 +38,8 @@ Check the [commands reference](https://github.com/RickyCoDev/Html_Table_Editor/w
 
 ## Reminder
 Remember that I develop and test on Windows, I test only major builds on linux, so expect to find any kind of issues of not-major versions.
+
+If you find any issues please report them [here](https://github.com/RickyCoDev/Html_Table_Editor/issues). Remember to carefully describe what happened. 
 
 #Licence
 Copyright (c) 2016 RickyCoDev

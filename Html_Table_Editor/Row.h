@@ -29,7 +29,7 @@ public:
 	Row(int cells);
 	~Row();
 
-	void SetRowNumber(int rowNumber) { RowNumber = rowNumber; }
+	void SetRowNumber(int rowNumber) { RowNumber = rowNumber; if (RowNumber == 0) isLayout = true; }
 	int GetRowNumber() { return RowNumber; }
 	int GetCells() { return Cells.size(); }
 	bool RowIsLayout() { return isLayout; }
