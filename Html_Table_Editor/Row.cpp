@@ -124,3 +124,10 @@ void Row::ReEnumCells()
 		Cells[i].SetCellNumber(i);
 	}
 }
+
+void Row::RemoveCell(unsigned pos)
+{
+	if (pos < Cells.size())
+	Cells.erase(Cells.begin() + pos);
+	ReEnumCells();
+}

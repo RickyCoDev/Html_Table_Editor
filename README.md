@@ -12,9 +12,9 @@ Make sure to check the fetures list to see the actual status of the development.
 - [x] Read Html tables from a text/html file
 - [x] Write raw data recovered from a html table
 - [x] Show table properties
-- [ ] Edit the table layout
+- [x] Protection from null table (no rows/columns)
 - [x] Add columns
-- [ ] Remove columns
+- [x] Remove columns
 - [x] Add rows with cells
 - [x] Add empty rows
 - [x] Remove rows
@@ -25,6 +25,7 @@ Make sure to check the fetures list to see the actual status of the development.
 - [ ] Set content of a specific cell
 - [ ] Edit content of a specific cell
 - [ ] Write the table on a new html file 
+- [ ] TBD: Automatic output after any command
 
 # Download
 At the moment I don't offer any binary downloads, you have to compile the code to get the program running. Please check the [download page of the wiki](https://github.com/RickyCoDev/Html_Table_Editor/wiki/Download).
@@ -39,7 +40,7 @@ Check the [commands reference](https://github.com/RickyCoDev/Html_Table_Editor/w
 ## Reminder
 Remember that I develop and test on Windows, I test only major builds on linux, so expect to find any kind of issues of not-major versions.
 
-If you find any issues please report them [here](https://github.com/RickyCoDev/Html_Table_Editor/issues). Remember to carefully describe what happened. 
+If you find an issue please report it [here](https://github.com/RickyCoDev/Html_Table_Editor/issues). Remember to carefully describe what happened. 
 
 #Licence
 Copyright (c) 2016 RickyCoDev

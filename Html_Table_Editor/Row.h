@@ -38,6 +38,7 @@ public:
 
 	//adds a empty cell
 	void AddEmptyCell(unsigned pos);
+	void RemoveCell(unsigned pos);
 
 
 };

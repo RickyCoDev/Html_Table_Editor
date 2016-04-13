@@ -176,6 +176,12 @@ void Table::Handler_AddRowCMD(std::vector<std::string>& args)
 	if (args.size() > 1)
 		std::stringstream{ args[1] } >> InsertPos;
 
+	if (InsertPos < 2)
+	{
+		msg->cwarn << "You can't put a row before layout! Moving new row to fist available line.";
+		InsertPos=2;
+	}
+
 	//create row with cells; same number as layout
 	if (args[0] == "row")
 	{
@@ -199,9 +205,7 @@ void Table::Handler_AddColumnCMD(std::vector<std::string>& args)
 	if (args.size() > 0)
 	{
 		std::stringstream{ args[0] } >> pos;
-
 	}
-	msg->clog << "Col pos: " + std::to_string(pos);
 	AddEmptyColumnAtPos(pos);
 }
 
@@ -255,7 +259,7 @@ void Table::CMD_Rm(std::vector<std::string> args)
 	if (args[0] == "col")
 	{
 		URemoveFirstArg(args);
-		//Handler_RemoveColumnCMD(args);
+		Handler_RemoveColumnCMD(args);
 		return;
 	}
 
@@ -275,9 +279,28 @@ void Table::Handler_RemoveRowCMD(std::vector<std::string>& args)
 void Table::RemoveRow(unsigned pos)
 {
 	if (Rows.size() == 1) throw CustomExceptions::CmdError("E0019 - You can't delete all the table");
-
 	if (pos > Rows.size()) pos = Rows.size()-1;
 	Rows.erase(Rows.begin() + pos);
 	ReEnumRows();
 	msg->csucc << "Removed row at: " + std::to_string(pos+1);
+}
+
+void Table::Handler_RemoveColumnCMD(std::vector<std::string>& args)
+{
+	unsigned RmPos = Rows[0].GetCells();
+	if (args.size() > 1) msg->cwarn << "Only one paramter is required, ingoring the other one(s)";
+	if (args.size() > 0)
+		std::stringstream{ args[0] } >> RmPos;
+	RemoveColumn(RmPos - 1); // remove 1 to translate to machine position
+}
+
+void Table::RemoveColumn(unsigned pos)
+{
+	if(Rows[0].GetCells() == 1) throw CustomExceptions::CmdError("E0019 - You can't delete all the table");
+	if (pos > Rows[0].GetCells()) pos = Rows[0].GetCells() - 1;
+	for (int i = 0; i < Rows.size(); i++)
+	{
+		Rows[i].RemoveCell(pos);
+	}
+	msg->csucc << "Removed column at: " + std::to_string(pos + 1);
 }
