@@ -22,6 +22,7 @@ Table::Table(const std::string& input)
 	std::cout << "\nOk now its time to work, check the GitHub wiki to get full commands reference:\n";
 
 	cmds->RegisterCommand("WriteRaw", std::bind(&Table::CMD_WriteRawData, this, std::placeholders::_1));
+	cmds->RegisterCommand("output", std::bind(&Table::CMD_WriteOutput, this, std::placeholders::_1));
 	cmds->RegisterCommand("add", std::bind(&Table::CMD_Add, this, std::placeholders::_1));
 	cmds->RegisterCommand("Tprops", std::bind(&Table::CMD_TableProps, this, std::placeholders::_1));
 	cmds->RegisterCommand("rm", std::bind(&Table::CMD_Rm, this, std::placeholders::_1));
@@ -136,6 +137,32 @@ void Table::CMD_WriteRawData(std::vector<std::string> args)
 		args.clear();
 	}
 	msg->csucc << "The raw data has been written on a file next to this executable.";
+}
+
+void Table::CMD_WriteOutput(std::vector<std::string> args)
+{
+	FileManager* fm = new FileManager{ FileManager::File::output };
+	fm->Write("<html><body>");
+	fm->Write("<h1><center>HTML5 OUTPUT</center></h1>\n\n");
+	fm->Write("<p>This tables has been generated with Html Table Editor by RickyCoDev<p>");
+	fm->Write("<p> Copyright (c) 2016 RickyCoDev</p>");
+	fm->Write("<p> Licenced under Apache 2.0 Licence</p>");
+	fm->Write("<p>Please report any issues <a href=https://github.com/RickyCoDev/Html_Table_Editor>here</a></p>");
+	fm->Write("<p>Note: The watermark above can be removed.</p><br/><br/>\n\n");
+	fm->Write("<table>");
+	for (int i = 0; i < Rows.size(); i++)
+	{
+		fm->Write(Rows[i].GetRowContent(OutputKind::normal) + "\n");
+	}
+	fm->Write("</table></body></html>");
+	delete fm;
+	
+	if (args.size() > 0)
+	{
+		msg->cwarn << "This command takes no parameter(s), ignoring the current one(s).";
+		args.clear();
+	}
+	msg->csucc << "The output has been written on 'output.html' file next to this executable.";
 }
 
 void Table::URemoveFirstArg(std::vector<std::string>& args)

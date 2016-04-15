@@ -24,7 +24,7 @@ Make sure to check the fetures list to see the actual status of the development.
 - [ ] Edit content of a row
 - [ ] Set content of a specific cell
 - [ ] Edit content of a specific cell
-- [ ] Write the table on a new html file 
+- [x] Write the table on a new html file 
 - [ ] TBD: Automatic output after any command
 
 # Download

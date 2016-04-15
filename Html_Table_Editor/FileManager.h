@@ -18,7 +18,7 @@ class FileManager
 {
 private:
 	const std::string CleanData = "cleandata.txt";
-	const std::string OutPut = "output.txt";
+	const std::string OutPut = "output.html";
 	std::fstream* myfile;
 	
 public:
