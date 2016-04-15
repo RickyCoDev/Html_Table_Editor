@@ -134,12 +134,12 @@ void Row::RemoveCell(unsigned pos)
 
 void Row::SetCellContent(unsigned Cpos, std::string newContent)
 {
-	if (Cpos > Cells.size())
+	if (Cpos+1 > Cells.size())
 	{
-		Cpos = Cells.size();
 		Console::Msg* msg = new Console::Msg{};
-		msg->cwarn << "Cell posizition should not be grater that the columns number";
+		msg->cwarn << "The selected column has an null cell";
 		delete msg;
+		return;
 	}
 
 	Cells[Cpos].SetContent(newContent);

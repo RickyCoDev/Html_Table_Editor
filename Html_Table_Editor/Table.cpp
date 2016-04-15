@@ -371,8 +371,7 @@ void Table::CMD_Set(std::vector<std::string> args)
 	if (args[0] == "col")
 	{
 		URemoveFirstArg(args);
-		msg->clog << "set col cmd in not ready yet";
-		//Handler_SetColumnsContentCMD(args);
+		Handler_SetColumnContentCMD(args);
 		return;
 	}
 
@@ -394,4 +393,21 @@ void Table::Handler_SetRowContentCMD(std::vector<std::string>& args)
 	Rows[Pos].SetAllCellsContent(newContent);
 
 	msg->csucc << "Row " + std::to_string(Pos + 1) + ": content set to: `" + newContent+"`";
+}
+
+void Table::Handler_SetColumnContentCMD(std::vector<std::string>& args)
+{
+	int pos = -1;
+	std::stringstream{ args[0] } >> pos;
+	pos -= 1;
+	if(pos<0 || pos> Rows[0].GetCells()) throw CustomExceptions::CmdError("E0020 - Wrong position: the specified position is not in the table!");
+
+	URemoveFirstArg(args); // remove the number
+	std::string newContent = UGetAllArgsInString(args);
+	for (int i = 0; i < Rows.size(); i++)
+	{
+		if(!Rows[i].IsEmpty()) // ignore empty lines
+		   Rows[i].SetCellContent(pos, newContent);
+	}
+	msg->csucc << "Column " + std::to_string(pos + 1) + ": content set to: `" + newContent + "`";
 }

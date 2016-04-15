@@ -20,7 +20,7 @@ Make sure to check the fetures list to see the actual status of the development.
 - [x] Remove rows
 - [x] Set content of a column
 - [ ] Edit content of a column
-- [ ] Set content of a row
+- [x] Set content of a row
 - [ ] Edit content of a row
 - [ ] Set content of a specific cell
 - [ ] Edit content of a specific cell
@@ -28,6 +28,7 @@ Make sure to check the fetures list to see the actual status of the development.
 - [ ] TBD: Automatic output after any command
 - [ ] TBD: Join two rows
 - [ ] TBD: Join two columns
+- [ ] TBD: Fill all null cells with empty ones
 
 # Download
 At the moment I don't offer any binary downloads, you have to compile the code to get the program running. Please check the [download page of the wiki](https://github.com/RickyCoDev/Html_Table_Editor/wiki/Download).
