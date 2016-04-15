@@ -32,7 +32,8 @@ public:
 	void SetRowNumber(int rowNumber) { RowNumber = rowNumber; if (RowNumber == 0) isLayout = true; }
 	int GetRowNumber() { return RowNumber; }
 	int GetCells() { return Cells.size(); }
-	bool RowIsLayout() { return isLayout; }
+	bool IsLayout() { return isLayout; }
+	bool IsEmpty() { return (Cells.size() > 0) ? false : true; }
 	//Cell GetCell(const int& index) { return Cells[index]; }; //TODO: add error handlig for out of range
 	std::string GetRowContent(OutputKind kind);
 
@@ -40,6 +41,11 @@ public:
 	void AddEmptyCell(unsigned pos);
 	void RemoveCell(unsigned pos);
 
+	//set the content for a single cell
+	void SetCellContent(unsigned Cpos, std::string newContent);
+	//set the contet of all the row
+	void SetAllCellsContent(std::string newContent);
 
+	void FillWithEmptyCells(unsigned cellNumber);
 };
 

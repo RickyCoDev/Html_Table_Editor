@@ -42,14 +42,26 @@ private:
 	//handlers
 	//Remove the fist item of the vector that is gaven as input
 	void URemoveFirstArg(std::vector<std::string>& args);
+	//put all args in a string
+	std::string UGetAllArgsInString(std::vector<std::string>& args);
+
 	//handle add row cmds
 	void Handler_AddRowCMD(std::vector<std::string>& args);
 	//handle add coll cmds
 	void Handler_AddColumnCMD(std::vector<std::string>& args);
+
 	//handle rm row
 	void Handler_RemoveRowCMD(std::vector<std::string>& args);
 	//handle rm coll
 	void Handler_RemoveColumnCMD(std::vector<std::string>& args);
+
+	//hanlde set row cmd; set the content of all the cells of one row
+	void Handler_SetRowContentCMD(std::vector<std::string>& args);
+	//hanlde set row cmd; set the content of all the cells of one column
+	void Handler_SetColumnsContentCMD(std::vector<std::string>& args);
+	//hanlde set all cmd; set the content of all the cells of the table
+	void Handler_SetAllContentCMD(std::vector<std::string>& args);
+
 
 
 public:
@@ -59,12 +71,14 @@ public:
 	int GetRowNumber() { return Rows.size(); }
 	int GetColumnNumber() { return Rows[0].GetCells(); }
 	int GetCellNumber();
-	bool HasLayout() { return Rows[0].RowIsLayout(); }
+	bool HasLayout() { return Rows[0].IsLayout(); }
 
 	//handle all add cmds
 	void CMD_Add(std::vector<std::string> args); //chose the correct handler based on 1st parameter
 
 	void CMD_Rm(std::vector<std::string> args); //chose the correct handler based on 1st parameter
+
+	void CMD_Set(std::vector<std::string> args); //chose the correct handler based on 1st parameter
 
 	void CMD_TableProps(std::vector<std::string> args); //Print table properties
 

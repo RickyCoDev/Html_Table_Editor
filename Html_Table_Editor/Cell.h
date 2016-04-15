@@ -30,6 +30,7 @@ public:
 	void SetCellNumber(unsigned num) { CellNumber = num; }
 	//get the content with a open and close tag
 	std::string GetContentForOutPut(OutputKind kind, bool isLayout);
+	void SetContent(std::string newContent) { content = newContent; }
 
 };
 

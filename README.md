@@ -18,7 +18,7 @@ Make sure to check the fetures list to see the actual status of the development.
 - [x] Add rows with cells
 - [x] Add empty rows
 - [x] Remove rows
-- [ ] Set content of a column
+- [x] Set content of a column
 - [ ] Edit content of a column
 - [ ] Set content of a row
 - [ ] Edit content of a row
@@ -26,6 +26,8 @@ Make sure to check the fetures list to see the actual status of the development.
 - [ ] Edit content of a specific cell
 - [x] Write the table on a new html file 
 - [ ] TBD: Automatic output after any command
+- [ ] TBD: Join two rows
+- [ ] TBD: Join two columns
 
 # Download
 At the moment I don't offer any binary downloads, you have to compile the code to get the program running. Please check the [download page of the wiki](https://github.com/RickyCoDev/Html_Table_Editor/wiki/Download).

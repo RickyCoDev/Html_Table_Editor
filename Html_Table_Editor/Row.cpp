@@ -131,3 +131,33 @@ void Row::RemoveCell(unsigned pos)
 	Cells.erase(Cells.begin() + pos);
 	ReEnumCells();
 }
+
+void Row::SetCellContent(unsigned Cpos, std::string newContent)
+{
+	if (Cpos > Cells.size())
+	{
+		Cpos = Cells.size();
+		Console::Msg* msg = new Console::Msg{};
+		msg->cwarn << "Cell posizition should not be grater that the columns number";
+		delete msg;
+	}
+
+	Cells[Cpos].SetContent(newContent);
+}
+
+void Row::SetAllCellsContent(std::string newContent)
+{
+	for (int i = 0; i < Cells.size(); i++)
+	{
+		Cells[i].SetContent(newContent);
+	}
+}
+
+void Row::FillWithEmptyCells(unsigned cellNumber)
+{
+	for (int i = 0; i < cellNumber; i++)
+	{
+		Cell c = Cell{};
+		Cells.push_back(c);
+	}
+}

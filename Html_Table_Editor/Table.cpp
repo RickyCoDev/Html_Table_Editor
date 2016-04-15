@@ -26,7 +26,7 @@ Table::Table(const std::string& input)
 	cmds->RegisterCommand("add", std::bind(&Table::CMD_Add, this, std::placeholders::_1));
 	cmds->RegisterCommand("Tprops", std::bind(&Table::CMD_TableProps, this, std::placeholders::_1));
 	cmds->RegisterCommand("rm", std::bind(&Table::CMD_Rm, this, std::placeholders::_1));
-
+	cmds->RegisterCommand("set", std::bind(&Table::CMD_Set, this, std::placeholders::_1));
 }
 
 
@@ -275,7 +275,7 @@ void Table::CMD_TableProps(std::vector<std::string> args)
 
 void Table::CMD_Rm(std::vector<std::string> args)
 {
-	if(args.size() < 1) if (args.size() < 1) throw CustomExceptions::CmdError("E0017 - Missing parameters for add command");
+	if(args.size() < 1)  throw CustomExceptions::CmdError("E0017 - Missing parameters for rm command");
 
 	if (args[0] == "row")
 	{
@@ -330,4 +330,68 @@ void Table::RemoveColumn(unsigned pos)
 		Rows[i].RemoveCell(pos);
 	}
 	msg->csucc << "Removed column at: " + std::to_string(pos + 1);
+}
+
+std::string Table::UGetAllArgsInString(std::vector<std::string>& args)
+{
+	std::string temp;
+	for (int i = 0; i < args.size(); i++)
+	{
+		if (i == 0)
+			temp += args[i];
+		else
+		{
+			temp += " " + args[i];
+		}
+	}
+	return temp;
+}
+
+void Table::CMD_Set(std::vector<std::string> args)
+{
+	//these 2 commands need less parameter
+	if (args.size() < 2) throw CustomExceptions::CmdError("E0017 - Missing parameters for set command");
+
+	if (args[0] == "all")
+	{
+		URemoveFirstArg(args);
+		//Handler_SetAllContentCMD(args);
+		msg->clog << "set all cmd in not ready yet";
+		return;
+	}
+
+	if (args.size() < 3) throw CustomExceptions::CmdError("E0017 - Missing parameters for set command");
+
+	if (args[0] == "row")
+	{
+		URemoveFirstArg(args);
+		Handler_SetRowContentCMD(args);
+		return;
+	}
+	if (args[0] == "col")
+	{
+		URemoveFirstArg(args);
+		msg->clog << "set col cmd in not ready yet";
+		//Handler_SetColumnsContentCMD(args);
+		return;
+	}
+
+	//if we get here something is wrong with parametes.
+	throw CustomExceptions::CmdError("E0018 - Wrong paramets");
+}
+
+void Table::Handler_SetRowContentCMD(std::vector<std::string>& args)
+{
+	int Pos = -1; // -1 = fail status
+	std::stringstream{ args[0] } >> Pos;
+	Pos -= 1; // translate to machine pos
+	if (Pos <0 || Pos > Rows.size()) throw CustomExceptions::CmdError("E0020 - Wrong position: the specified position is not in the table!");
+
+	URemoveFirstArg(args); // remove the number
+	std::string newContent = UGetAllArgsInString(args);
+	if (Rows[Pos].IsEmpty())
+		Rows[Pos].FillWithEmptyCells(Rows[0].GetCells());
+	Rows[Pos].SetAllCellsContent(newContent);
+
+	msg->csucc << "Row " + std::to_string(Pos + 1) + ": content set to: `" + newContent+"`";
 }
