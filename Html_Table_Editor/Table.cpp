@@ -125,6 +125,7 @@ void Table::CMD_WriteRawData(std::vector<std::string> args)
 	fm->Write(" Copyright (c) 2016 RickyCoDev\n");
 	fm->Write(" Licenced under Apache 2.0 Licence\n");
 	fm->Write("Please report any issues at: https://github.com/RickyCoDev/Html_Table_Editor\n\n");
+	fm->Write("Note: The watermark above can be removed.\n Giving attribution is not required, but is greatly appreciated!\n\n");
 	for (int i = 0; i < Rows.size();i++)
 	{
 		fm->Write(Rows[i].GetRowContent(OutputKind::clean)+"\n");
@@ -144,11 +145,11 @@ void Table::CMD_WriteOutput(std::vector<std::string> args)
 	FileManager* fm = new FileManager{ FileManager::File::output };
 	fm->Write("<html><body>");
 	fm->Write("<h1><center>HTML5 OUTPUT</center></h1>\n\n");
-	fm->Write("<p>This tables has been generated with Html Table Editor by RickyCoDev<p>");
+	fm->Write("<p>This tables has been generated with Html Table Editor by RickyCoDev</p>");
 	fm->Write("<p> Copyright (c) 2016 RickyCoDev</p>");
 	fm->Write("<p> Licenced under Apache 2.0 Licence</p>");
 	fm->Write("<p>Please report any issues <a href=https://github.com/RickyCoDev/Html_Table_Editor>here</a></p>");
-	fm->Write("<p>Note: The watermark above can be removed.</p><br/><br/>\n\n");
+	fm->Write("<p>Note: The watermark above can be removed.<br>Giving attribution is not required, but is greatly appreciated!</p><br/><br/>\n\n");
 	fm->Write("<table>");
 	for (int i = 0; i < Rows.size(); i++)
 	{
@@ -355,8 +356,7 @@ void Table::CMD_Set(std::vector<std::string> args)
 	if (args[0] == "all")
 	{
 		URemoveFirstArg(args);
-		//Handler_SetAllContentCMD(args);
-		msg->clog << "set all cmd in not ready yet";
+		Handler_SetAllContentCMD(args);
 		return;
 	}
 
@@ -410,4 +410,15 @@ void Table::Handler_SetColumnContentCMD(std::vector<std::string>& args)
 		   Rows[i].SetCellContent(pos, newContent);
 	}
 	msg->csucc << "Column " + std::to_string(pos + 1) + ": content set to: `" + newContent + "`";
+}
+
+void Table::Handler_SetAllContentCMD(std::vector<std::string>& args)
+{
+	std::string newContent = UGetAllArgsInString(args);
+	for (int i = 0; i < Rows.size(); i++)
+	{
+		if (Rows[i].IsEmpty()) Rows[i].FillWithEmptyCells(Rows[0].GetCells());
+		Rows[i].SetAllCellsContent(newContent);
+	}
+	msg->csucc << "The content of all the cells is set to: `" + newContent + "`";
 }

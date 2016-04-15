@@ -22,6 +22,8 @@ Make sure to check the fetures list to see the actual status of the development.
 - [ ] Edit content of a column
 - [x] Set content of a row
 - [ ] Edit content of a row
+- [x] Set content of the whole table
+- [ ] Edit content of the whole table
 - [ ] Set content of a specific cell
 - [ ] Edit content of a specific cell
 - [x] Write the table on a new html file 
