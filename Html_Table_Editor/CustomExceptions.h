@@ -22,7 +22,7 @@ public:
 	class ReadError : public std::exception
 	{
 	public:
-		const char* what() const override { return m.c_str(); };
+		const char* what() const noexcept override { return m.c_str(); };
 		ReadError(const std::string message) { m = message; }
 	private:
 		std::string m;
@@ -31,7 +31,7 @@ public:
 	class FileError : public std::exception
 	{
 	public:
-		const char* what() const override { return m.c_str(); };
+		const char* what() const noexcept override { return m.c_str(); };
 		FileError(const std::string message) { m = message; }
 	private:
 		std::string m;
@@ -40,7 +40,7 @@ public:
 	class CmdError : public std::exception
 	{
 	public:
-		const char* what() const override { return m.c_str(); };
+		const char* what() const noexcept override { return m.c_str(); };
 		CmdError(const std::string message) { m = message; }
 	private:
 		std::string m;

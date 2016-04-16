@@ -29,7 +29,7 @@ namespace Console
 	{
 	private:
 		//available colors
-		enum Color { red, yellow, green, blue, default };
+		enum Color { red, yellow, green, blue, normal };
 
 		class OutStream
 		{
@@ -45,7 +45,7 @@ namespace Console
 
 	public:
 		Msg();
-		OutStream clog{ Color::default }, cwarn{ Color::yellow }, cerr{ Color::red }, csucc{ Color::green };
+		OutStream clog{ Color::normal }, cwarn{ Color::yellow }, cerr{ Color::red }, csucc{ Color::green };
 		void WelcomeMessage();
 	};
 

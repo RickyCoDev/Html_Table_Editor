@@ -14,7 +14,7 @@ http://www.apache.org/licenses/LICENSE-2.0
 #include <vector>
 #include "Common.h"
 #include "CustomExceptions.h"
-#include "Row.h";
+#include "Row.h"
 #include <sstream>
 
 class Table

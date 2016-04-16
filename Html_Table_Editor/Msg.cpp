@@ -67,7 +67,7 @@ Console::Msg::OutStream::OutStream(Color col)
 	case Console::Msg::yellow:
 		prefix = "**Warning** ";
 		break;
-	case Console::Msg::default:
+	case Console::Msg::normal:
 		prefix = "**Log** ";
 		break;
 	default:
@@ -77,7 +77,7 @@ Console::Msg::OutStream::OutStream(Color col)
 
 Console::Msg::OutStream& Console::Msg::OutStream::operator<< (const std::string& _msg)
 {
-	if (_col != Color::default)
+	if (_col != Color::normal)
 		ColoredOutput(prefix+_msg+"\n", _col);
 	else
 		std::cout << prefix<< _msg <<"\n";
