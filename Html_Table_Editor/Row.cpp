@@ -137,9 +137,9 @@ void Row::SetCellContent(unsigned Cpos, std::string newContent)
 	if (Cpos+1 > Cells.size())
 	{
 		Console::Msg* msg = new Console::Msg{};
-		msg->cwarn << "The selected column has an null cell";
+		msg->cwarn << "The row "+std::to_string(RowNumber+1)+" has a null cell at: "+std::to_string(Cpos+1)+", filling row with empty cells";
 		delete msg;
-		return;
+		FillWithEmptyCells(Cpos + 1 - Cells.size());
 	}
 
 	Cells[Cpos].SetContent(newContent);

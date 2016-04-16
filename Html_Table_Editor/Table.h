@@ -55,13 +55,14 @@ private:
 	//handle rm coll
 	void Handler_RemoveColumnCMD(std::vector<std::string>& args);
 
-	//hanlde set row cmd; set the content of all the cells of one row
+	//hanlde set/edit row cmd; set the content of all the cells of one row
 	void Handler_SetRowContentCMD(std::vector<std::string>& args);
-	//hanlde set row cmd; set the content of all the cells of one column
+	//hanlde set/edit row cmd; set the content of all the cells of one column
 	void Handler_SetColumnContentCMD(std::vector<std::string>& args);
-	//hanlde set all cmd; set the content of all the cells of the table
+	//hanlde set/edit all cmd; set the content of all the cells of the table
 	void Handler_SetAllContentCMD(std::vector<std::string>& args);
-
+	//hanlde set/edit cell cmd; set the content of a cell
+	void Handler_SetCellContentCMD(std::vector<std::string>& args);
 
 
 public:
