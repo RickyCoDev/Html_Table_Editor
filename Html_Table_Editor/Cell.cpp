@@ -63,3 +63,16 @@ std::string Cell::GetContentForOutPut(OutputKind kind, bool isLayout)
 	}
 	return OpenTag + content + CloseTag;
 }
+
+void Cell::SetContent(std::string newContent)
+{
+	if (CheckForPresence(newContent, EditPatternIdentifier))
+	{
+		content = Replace(newContent, EditPatternIdentifier, content); // replace pattern identifier with current content
+	}
+	else
+	{
+		content = newContent;
+	}
+
+}

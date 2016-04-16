@@ -27,6 +27,7 @@ Table::Table(const std::string& input)
 	cmds->RegisterCommand("Tprops", std::bind(&Table::CMD_TableProps, this, std::placeholders::_1));
 	cmds->RegisterCommand("rm", std::bind(&Table::CMD_Rm, this, std::placeholders::_1));
 	cmds->RegisterCommand("set", std::bind(&Table::CMD_Set, this, std::placeholders::_1));
+	cmds->RegisterCommand("edit", std::bind(&Table::CMD_Set, this, std::placeholders::_1));
 }
 
 

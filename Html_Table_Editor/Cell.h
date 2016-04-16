@@ -19,7 +19,7 @@ class Cell
 private:
 	std::string content;
 	int CellNumber;
-
+	std::string EditPatternIdentifier = "@c@";
 
 public:
 	Cell(const std::string& input, const int cellNumber);
@@ -30,7 +30,8 @@ public:
 	void SetCellNumber(unsigned num) { CellNumber = num; }
 	//get the content with a open and close tag
 	std::string GetContentForOutPut(OutputKind kind, bool isLayout);
-	void SetContent(std::string newContent) { content = newContent; }
+	//set the cell content, or use a pattern to edit it
+	void SetContent(std::string newContent);
 
 };
 
