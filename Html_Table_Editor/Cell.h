@@ -21,6 +21,9 @@ private:
 	int CellNumber;
 	std::string EditPatternIdentifier = "@c@";
 
+	std::string JoinCurrentContentMarker = "@1@";
+	std::string JoinOtherContentMarker = "@2@";
+
 public:
 	Cell(const std::string& input, const int cellNumber);
 	~Cell();
@@ -32,6 +35,9 @@ public:
 	std::string GetContentForOutPut(OutputKind kind, bool isLayout);
 	//set the cell content, or use a pattern to edit it
 	void SetContent(std::string newContent);
+
+	//set the cell content based on a pattern and another string
+	void JoinContent(std::string Pattern, std::string content2);
 
 };
 

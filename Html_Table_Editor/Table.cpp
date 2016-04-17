@@ -14,6 +14,7 @@ Table::Table(const std::string& input)
 {
 	msg = new Console::Msg{};
 	GetTable(input);
+	//print table properties
 	std::string layout = (HasLayout()) ? "True" : "False"; //make the output more readable
 	msg->csucc << "\nThe table in input has this properties:"
 		<< "has a layout: " + layout
@@ -21,6 +22,7 @@ Table::Table(const std::string& input)
 		<< "with a total of: " + std::to_string(GetCellNumber()) + " of cells.";
 	std::cout << "\nOk now its time to work, check the GitHub wiki to get full commands reference:\n";
 
+	//register all console commands and set their handlers
 	cmds->RegisterCommand("WriteRaw", std::bind(&Table::CMD_WriteRawData, this, std::placeholders::_1));
 	cmds->RegisterCommand("output", std::bind(&Table::CMD_WriteOutput, this, std::placeholders::_1));
 	cmds->RegisterCommand("add", std::bind(&Table::CMD_Add, this, std::placeholders::_1));
@@ -28,6 +30,7 @@ Table::Table(const std::string& input)
 	cmds->RegisterCommand("rm", std::bind(&Table::CMD_Rm, this, std::placeholders::_1));
 	cmds->RegisterCommand("set", std::bind(&Table::CMD_Set, this, std::placeholders::_1));
 	cmds->RegisterCommand("edit", std::bind(&Table::CMD_Set, this, std::placeholders::_1));
+	cmds->RegisterCommand("join", std::bind(&Table::CMD_Join, this, std::placeholders::_1));
 }
 
 
@@ -105,7 +108,7 @@ int Table::GetCellNumber()
 	int temp=0;
 	for (int i = 0; i < Rows.size(); i++)
 	{
-		temp += Rows[i].GetCells();
+		temp += Rows[i].GetCellsCount();
 	}
 	return temp;
 }
@@ -214,7 +217,7 @@ void Table::Handler_AddRowCMD(std::vector<std::string>& args)
 	//create row with cells; same number as layout
 	if (args[0] == "row")
 	{
-		Row r = Row{ Rows[0].GetCells() };
+		Row r = Row{ Rows[0].GetCellsCount() };
 		AddRowAtPos(InsertPos-1, r); //-1 allows the use to not start from row 0
 		return;
 	}
@@ -230,7 +233,7 @@ void Table::Handler_AddColumnCMD(std::vector<std::string>& args)
 {
 	if(args.size()>1) msg->cwarn << "Only one paramter is required, ingoring the other one(s)";
 
-	unsigned pos = Rows[0].GetCells();
+	unsigned pos = Rows[0].GetCellsCount();
 	if (args.size() > 0)
 	{
 		std::stringstream{ args[0] } >> pos;
@@ -257,7 +260,7 @@ void Table::AddRowAtPos(unsigned pos,Row& r)
 
 void Table::AddEmptyColumnAtPos(unsigned pos)
 {
-	if (pos > Rows[0].GetCells()) pos = Rows[0].GetCells()+1;
+	if (pos > Rows[0].GetCellsCount()) pos = Rows[0].GetCellsCount()+1;
 
 	for (int i = 0; i < Rows.size(); i++)
 	{
@@ -316,7 +319,7 @@ void Table::RemoveRow(unsigned pos)
 
 void Table::Handler_RemoveColumnCMD(std::vector<std::string>& args)
 {
-	unsigned RmPos = Rows[0].GetCells();
+	unsigned RmPos = Rows[0].GetCellsCount();
 	if (args.size() > 1) msg->cwarn << "Only one paramter is required, ingoring the other one(s)";
 	if (args.size() > 0)
 		std::stringstream{ args[0] } >> RmPos;
@@ -325,8 +328,8 @@ void Table::Handler_RemoveColumnCMD(std::vector<std::string>& args)
 
 void Table::RemoveColumn(unsigned pos)
 {
-	if(Rows[0].GetCells() == 1) throw CustomExceptions::CmdError("E0019 - You can't delete all the table");
-	if (pos > Rows[0].GetCells()) pos = Rows[0].GetCells() - 1;
+	if(Rows[0].GetCellsCount() == 1) throw CustomExceptions::CmdError("E0019 - You can't delete all the table");
+	if (pos > Rows[0].GetCellsCount()) pos = Rows[0].GetCellsCount() - 1;
 	for (int i = 0; i < Rows.size(); i++)
 	{
 		Rows[i].RemoveCell(pos);
@@ -398,7 +401,7 @@ void Table::Handler_SetRowContentCMD(std::vector<std::string>& args)
 	URemoveFirstArg(args); // remove the number
 	std::string newContent = UGetAllArgsInString(args);
 	if (Rows[Pos].IsEmpty())
-		Rows[Pos].FillWithEmptyCells(Rows[0].GetCells());
+		Rows[Pos].FillWithEmptyCells(Rows[0].GetCellsCount());
 	Rows[Pos].SetAllCellsContent(newContent);
 
 	msg->csucc << "The content of row " + std::to_string(Pos + 1) + " is set to: `" + newContent + "`";
@@ -409,7 +412,7 @@ void Table::Handler_SetColumnContentCMD(std::vector<std::string>& args)
 	int pos = -1;
 	std::stringstream{ args[0] } >> pos;
 	pos -= 1;
-	if(pos<0 || pos>= Rows[0].GetCells()) throw CustomExceptions::CmdError("E0020 - Wrong position: the specified position is not in the table!");
+	if(pos<0 || pos>= Rows[0].GetCellsCount()) throw CustomExceptions::CmdError("E0020 - Wrong position: the specified position is not in the table!");
 
 	URemoveFirstArg(args); // remove the number
 	std::string newContent = UGetAllArgsInString(args);
@@ -426,7 +429,7 @@ void Table::Handler_SetAllContentCMD(std::vector<std::string>& args)
 	std::string newContent = UGetAllArgsInString(args);
 	for (int i = 0; i < Rows.size(); i++)
 	{
-		if (Rows[i].IsEmpty()) Rows[i].FillWithEmptyCells(Rows[0].GetCells());
+		if (Rows[i].IsEmpty()) Rows[i].FillWithEmptyCells(Rows[0].GetCellsCount());
 		Rows[i].SetAllCellsContent(newContent);
 	}
 	msg->csucc << "The content of all the cells is set to: `" + newContent + "`";
@@ -445,10 +448,66 @@ void Table::Handler_SetCellContentCMD(std::vector<std::string>& args)
 
 	//check for invalid position
 	if (Rpos<0 || Rpos>= Rows.size()) throw CustomExceptions::CmdError("E0020 - Wrong position: the specified position is not in the table!");
-	if (Cpos<0 || Cpos>= Rows[0].GetCells()) throw CustomExceptions::CmdError("E0020 - Wrong position: the specified position is not in the table!");
+	if (Cpos<0 || Cpos>= Rows[0].GetCellsCount()) throw CustomExceptions::CmdError("E0020 - Wrong position: the specified position is not in the table!");
 
 	std::string newContent = UGetAllArgsInString(args);
 	Rows[Rpos].SetCellContent(Cpos, newContent);
 
 	msg->csucc << "The content of the cell (" + std::to_string(Rpos + 1) + ";" + std::to_string(Cpos + 1) + ") is set to: `" + newContent + "`";
+}
+
+void Table::CMD_Join(std::vector<std::string> args)
+{
+	if (args.size() < 4) throw CustomExceptions::CmdError("E0017 - Missing parameters for set command");
+	if (args[0] == "rows")
+	{
+		URemoveFirstArg(args);
+		//call handler
+		Handler_JoinRows(args);
+		return;
+	}
+	if (args[0] == "cols")
+	{
+		URemoveFirstArg(args);
+		//call handler
+		//Handler_JoinColumns(args);
+		return;
+	}
+
+	//if we get here something is wrong with parametes.
+	throw CustomExceptions::CmdError("E0018 - Wrong paramets");
+}
+
+void Table::Handler_JoinRows(std::vector<std::string>& args)
+{
+	int row1 = -1, row2 = -1;
+	std::stringstream{ args[0] } >> row1;
+	row1 -= 1;
+	URemoveFirstArg(args);
+	std::stringstream{ args[0] } >> row2;
+	row2 -= 1;
+	URemoveFirstArg(args);
+
+	if(row1<0 || row1 >= Rows.size()) throw CustomExceptions::CmdError("E0020 - Wrong position: the specified position is not in the table!");
+	if (row2<0 || row2 >= Rows.size()) throw CustomExceptions::CmdError("E0020 - Wrong position: the specified position is not in the table!");
+	if (row1 == row2) throw CustomExceptions::CmdError("E0021 - You can't join the same element!");
+
+	std::string content = UGetAllArgsInString(args);
+	JoinRows(row1, row2, content);
+
+	RemoveRow(row2); // remove the second row. Comment this line if want to keep the second one
+	msg->csucc << "Row " + std::to_string(row2 + 1) + " has been added to row " + std::to_string(row1 + 1) + " with this pattern: '" + content+"'";
+}
+
+void Table::Handler_JoinColumns(std::vector<std::string>& args)
+{
+
+}
+
+void Table::JoinRows(unsigned row1, unsigned row2, std::string newContent)
+{
+	for (int i = 0; i < Rows[row1].GetCellsCount(); i++)
+	{
+		Rows[row1].JoinCellContent(i, newContent, Rows[row2].GetCellContent(i));
+	}
 }

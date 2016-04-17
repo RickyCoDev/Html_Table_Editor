@@ -76,3 +76,13 @@ void Cell::SetContent(std::string newContent)
 	}
 
 }
+
+void Cell::JoinContent(std::string Pattern, std::string content2)
+{
+	if (CheckForPresence(Pattern, JoinCurrentContentMarker))
+		Pattern = Replace(Pattern, JoinCurrentContentMarker, content);
+	if (CheckForPresence(Pattern, JoinOtherContentMarker))
+		Pattern = Replace(Pattern, JoinOtherContentMarker, content2);
+
+	content = Pattern;
+}

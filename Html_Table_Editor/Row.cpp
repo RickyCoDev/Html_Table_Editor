@@ -161,3 +161,17 @@ void Row::FillWithEmptyCells(unsigned cellNumber)
 		Cells.push_back(c);
 	}
 }
+
+std::string Row::GetCellContent(unsigned pos)
+{
+	if (pos >= Cells.size()) return "";
+
+	return Cells[pos].GetContent();
+}
+
+void Row::JoinCellContent(unsigned cPos, std::string pattern, std::string c2Content)
+{
+	if (cPos >= Cells.size()) return;
+
+	Cells[cPos].JoinContent(pattern, c2Content);
+}

@@ -28,8 +28,8 @@ Make sure to check the fetures list to see the actual status of the development.
 - [x] Edit content of a specific cell
 - [x] Write the table on a new html file 
 - [ ] TBD: Automatic output after any command
-- [ ] TBD: Join two rows
-- [ ] TBD: Join two columns
+- [x] Join two rows
+- [ ] Join two columns
 - [ ] TBD: Fill all null cells with empty ones
 - [ ] TBD: Set attributes (eg: class) for `table` tag
 - [ ] TBD: Set attributes for `tr` tags

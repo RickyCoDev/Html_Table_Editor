@@ -39,6 +39,8 @@ private:
 	void RemoveRow(unsigned pos);
 	void RemoveColumn(unsigned pos);
 
+	void JoinRows(unsigned row1, unsigned row2, std::string newContent);
+
 	//handlers
 	//Remove the fist item of the vector that is gaven as input
 	void URemoveFirstArg(std::vector<std::string>& args);
@@ -64,13 +66,17 @@ private:
 	//hanlde set/edit cell cmd; set the content of a cell
 	void Handler_SetCellContentCMD(std::vector<std::string>& args);
 
+	//handle join rows cmd; allow to join content of two rows and then delete one
+	void Handler_JoinRows(std::vector<std::string>& args);
+	//handler join cols cmd; allow to join content of two columns and then delete one
+	void Handler_JoinColumns(std::vector<std::string>& args);
 
 public:
 	Table(const std::string& input);
 	~Table();
 
 	int GetRowNumber() { return Rows.size(); }
-	int GetColumnNumber() { return Rows[0].GetCells(); }
+	int GetColumnNumber() { return Rows[0].GetCellsCount(); }
 	int GetCellNumber();
 	bool HasLayout() { return Rows[0].IsLayout(); }
 
@@ -86,5 +92,6 @@ public:
 	void CMD_WriteRawData(std::vector<std::string> args); //paste the raw data on a file
 	void CMD_WriteOutput(std::vector<std::string> args); //creates the new table
 
+	void CMD_Join(std::vector<std::string> args); // join 2 rows or columns
 };
 
