@@ -27,7 +27,7 @@ Make sure to check the features list to see the actual status of the development
 - [x] Set content of a specific cell
 - [x] Edit content of a specific cell
 - [x] Write the table on a new html file 
-- [ ] TBD: Automatic output after any command
+- [x] Automatic output/WriteRaw after any command
 - [x] Join two rows
 - [x] Join two columns
 - [x] Fill all null cells with empty ones

@@ -267,7 +267,7 @@ void Table::AddEmptyColumnAtPos(unsigned pos)
 	{
 		Rows[i].AddEmptyCell(pos-1);
 	}
-	msg->csucc << "Added empty column at: " + std::to_string(pos);
+	msg->csucc << "Added empty column at: " + std::to_string(pos+1);
 }
 
 void Table::CMD_TableProps(std::vector<std::string> args)

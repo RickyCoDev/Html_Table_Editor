@@ -18,6 +18,7 @@ http://www.apache.org/licenses/LICENSE-2.0
 
 int main()
 {
+	bool autoOutput = false;
 	Console::Msg* msg = new Console::Msg{};
 	msg->WelcomeMessage();
 	try 
@@ -51,9 +52,29 @@ int main()
 		{
 			CurCmd = args[0]; // get the command that is stored in the first pos
 			args.erase(args.begin(), args.begin() + 1); // remove 1st element. It's not a arg
-			//msg->clog << "Current cmd: "+CurCmd+" has " + std::to_string(args.size())+" args";
-			cmds->RunCommand(CurCmd,args); // not able to handle parameter for the moment
-			args.clear(); //remove cmd buffer
+
+			if (CurCmd == "autoput")
+			{
+				autoOutput = !autoOutput;
+				args.clear();
+				std::string status = autoOutput ? "active" : "disabled";
+				msg->csucc << "AutoOutput is now " +status;
+			}
+			else
+			{
+				//msg->clog << "Current cmd: "+CurCmd+" has " + std::to_string(args.size())+" args";
+				cmds->RunCommand(CurCmd, args); // not able to handle parameter for the moment
+
+				args.clear(); //remove cmd buffer
+
+				if (autoOutput && CurCmd != "quit" )
+				{
+					cmds->RunCommand("WriteRaw", args);
+					cmds->RunCommand("output", args);
+				}
+			}
+
+
 		}
 		catch (const std::exception& e)
 		{
