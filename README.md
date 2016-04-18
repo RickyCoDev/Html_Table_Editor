@@ -29,7 +29,7 @@ Make sure to check the fetures list to see the actual status of the development.
 - [x] Write the table on a new html file 
 - [ ] TBD: Automatic output after any command
 - [x] Join two rows
-- [ ] Join two columns
+- [x] Join two columns
 - [ ] TBD: Fill all null cells with empty ones
 - [ ] TBD: Set attributes (eg: class) for `table` tag
 - [ ] TBD: Set attributes for `tr` tags

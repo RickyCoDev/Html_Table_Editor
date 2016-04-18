@@ -41,6 +41,8 @@ private:
 
 	void JoinRows(unsigned row1, unsigned row2, std::string newContent);
 
+	void JoinColumns(unsigned col1, unsigned col2, std::string newContent);
+
 	//handlers
 	//Remove the fist item of the vector that is gaven as input
 	void URemoveFirstArg(std::vector<std::string>& args);

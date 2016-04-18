@@ -470,7 +470,7 @@ void Table::CMD_Join(std::vector<std::string> args)
 	{
 		URemoveFirstArg(args);
 		//call handler
-		//Handler_JoinColumns(args);
+		Handler_JoinColumns(args);
 		return;
 	}
 
@@ -501,7 +501,22 @@ void Table::Handler_JoinRows(std::vector<std::string>& args)
 
 void Table::Handler_JoinColumns(std::vector<std::string>& args)
 {
+	int col1 = -1, col2 = -1;
+	std::stringstream{ args[0] } >> col1;
+	col1 -= 1;
+	URemoveFirstArg(args);
+	std::stringstream{ args[0] } >> col2;
+	col2 -= 1;
+	URemoveFirstArg(args);
 
+	if (col1<0 || col1 >= Rows.size()) throw CustomExceptions::CmdError("E0020 - Wrong position: the specified position is not in the table!");
+	if (col2<0 || col2 >= Rows.size()) throw CustomExceptions::CmdError("E0020 - Wrong position: the specified position is not in the table!");
+	if (col1 == col2) throw CustomExceptions::CmdError("E0021 - You can't join the same element!");
+
+	std::string content = UGetAllArgsInString(args);
+	JoinColumns(col1, col2, content);
+	RemoveColumn(col2);
+	msg->csucc << "Column " + std::to_string(col2 + 1) + " has been added to column " + std::to_string(col1 + 1) + " with this pattern: '" + content + "'";
 }
 
 void Table::JoinRows(unsigned row1, unsigned row2, std::string newContent)
@@ -509,5 +524,13 @@ void Table::JoinRows(unsigned row1, unsigned row2, std::string newContent)
 	for (int i = 0; i < Rows[row1].GetCellsCount(); i++)
 	{
 		Rows[row1].JoinCellContent(i, newContent, Rows[row2].GetCellContent(i));
+	}
+}
+
+void Table::JoinColumns(unsigned col1, unsigned col2, std::string newContent)
+{
+	for (int i = 0; i < Rows.size(); i++)
+	{
+		Rows[i].JoinCellContent(col1, newContent, Rows[i].GetCellContent(col2));
 	}
 }
