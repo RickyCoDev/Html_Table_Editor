@@ -73,6 +73,7 @@ private:
 	//handler join cols cmd; allow to join content of two columns and then delete one
 	void Handler_JoinColumns(std::vector<std::string>& args);
 
+
 public:
 	Table(const std::string& input);
 	~Table();
@@ -95,5 +96,7 @@ public:
 	void CMD_WriteOutput(std::vector<std::string> args); //creates the new table
 
 	void CMD_Join(std::vector<std::string> args); // join 2 rows or columns
+	//fill empty elements and erase exceding one
+	void CMD_LineUp(std::vector<std::string> args);
 };
 

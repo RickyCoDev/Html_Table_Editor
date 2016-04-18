@@ -31,6 +31,7 @@ Table::Table(const std::string& input)
 	cmds->RegisterCommand("set", std::bind(&Table::CMD_Set, this, std::placeholders::_1));
 	cmds->RegisterCommand("edit", std::bind(&Table::CMD_Set, this, std::placeholders::_1));
 	cmds->RegisterCommand("join", std::bind(&Table::CMD_Join, this, std::placeholders::_1));
+	cmds->RegisterCommand("lineup", std::bind(&Table::CMD_LineUp, this, std::placeholders::_1));
 }
 
 
@@ -533,4 +534,32 @@ void Table::JoinColumns(unsigned col1, unsigned col2, std::string newContent)
 	{
 		Rows[i].JoinCellContent(col1, newContent, Rows[i].GetCellContent(col2));
 	}
+}
+
+void Table::CMD_LineUp(std::vector<std::string> args)
+{
+	if (args.size() > 0) msg->cwarn << "No paramter is required, ingoring the other one(s)";
+	int LayoutCellCount = Rows[0].GetCellsCount();
+	for (int i = 0; i < Rows.size(); i++)
+	{
+		if (Rows[i].GetCellsCount() != LayoutCellCount )
+		{
+			//add empty cells
+			if (Rows[i].GetCellsCount() < LayoutCellCount)
+			{
+				msg->clog << "Filling row: " + std::to_string(i + 1);
+				Rows[i].FillWithEmptyCells(LayoutCellCount - Rows[i].GetCellsCount());
+			}
+			//remove cels
+			if (Rows[i].GetCellsCount() > LayoutCellCount)
+			{
+				msg->clog << "Removing elements from row: " + std::to_string(i + 1);
+				while (Rows[i].GetCellsCount() != LayoutCellCount)
+				{
+					Rows[i].RemoveCell(Rows[i].GetCellsCount() - 1);
+				}
+			}
+		}
+	}
+	msg->csucc << "The table has been lined up.";
 }

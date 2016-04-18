@@ -4,7 +4,7 @@ This program is early development, so expect to find lots of issues and bugs!
 
 You also may expect that some functionalities are missing. 
 
-Make sure to check the fetures list to see the actual status of the development.
+Make sure to check the features list to see the actual status of the development.
 
 
 # Features
@@ -30,7 +30,8 @@ Make sure to check the fetures list to see the actual status of the development.
 - [ ] TBD: Automatic output after any command
 - [x] Join two rows
 - [x] Join two columns
-- [ ] TBD: Fill all null cells with empty ones
+- [x] Fill all null cells with empty ones
+- [x] Remove exceding elements in the rows
 - [ ] TBD: Set attributes (eg: class) for `table` tag
 - [ ] TBD: Set attributes for `tr` tags
 - [ ] TBD: Set attributes for `td/th` tags
