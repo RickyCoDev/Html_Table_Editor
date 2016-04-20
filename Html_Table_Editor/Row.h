@@ -18,6 +18,7 @@ private:
 	bool isLayout;
 	int RowNumber;
 	std::vector<Cell> Cells;
+	std::string style;
 
 	void PopulateCells(std::string input);
 	//reset cell numbers
@@ -52,5 +53,12 @@ public:
 	void FillWithEmptyCells(unsigned cellNumber);
 	//return the content string from an element by its position
 	std::string GetCellContent(unsigned pos);
+
+	//set the style of the row tag
+	void SetStyle(std::string newStyle) { style = " " + newStyle; }
+
+	void SetCellStyle(unsigned cPos, std::string newStyle);
+
+	void SetCellsStyle(std::string newStyle);
 };
 

@@ -32,13 +32,11 @@ Make sure to check the features list to see the actual status of the development
 - [x] Join two columns
 - [x] Fill all null cells with empty ones
 - [x] Remove exceding elements in the rows
-- [ ] TBD: Set attributes (eg: class) for `table` tag
-- [ ] TBD: Set attributes for `tr` tags
-- [ ] TBD: Set attributes for `td/th` tags
-- [ ] TBD: Alternate attributes set for rows
-- [ ] TBD: Alternate attributes set for columns
-- [ ] TBD: Set attributes one for row
-- [ ] TBD: Alternate attributes for one column
+- [x] TBD: Set attributes (eg: class) for `table` tag
+- [x] TBD: Set attributes for `tr` tags
+- [x] TBD: Set attributes for `td/th` tags
+- [ ] ~~TBD: Alternate attributes set for rows~~
+- [ ] ~~TBD: Alternate attributes set for columns~~
 
 # Download
 At the moment I don't offer any binary downloads, you have to compile the code to get the program running. Please check the [download page of the wiki](https://github.com/RickyCoDev/Html_Table_Editor/wiki/Download).

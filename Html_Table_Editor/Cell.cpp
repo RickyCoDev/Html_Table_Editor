@@ -53,11 +53,11 @@ std::string Cell::GetContentForOutPut(OutputKind kind, bool isLayout)
 	case OutputKind::normal:
 		if (isLayout)
 		{
-			OpenTag = "<th>"; CloseTag = "</th>";
+			OpenTag = "<th"+style+">"; CloseTag = "</th>";
 		}
 		else
 		{
-			OpenTag = "<td>"; CloseTag = "</td>";
+			OpenTag = "<td"+style+">"; CloseTag = "</td>";
 		}
 		break;
 	}

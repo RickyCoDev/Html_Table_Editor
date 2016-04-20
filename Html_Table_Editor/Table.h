@@ -22,6 +22,9 @@ class Table
 private:
 	std::string _input;
 	std::vector<Row> Rows;
+
+	std::string style;
+
 	Console::Msg* msg;
 	int ignorepos = 0;
 	//replace all html tags with custom defined tags
@@ -42,6 +45,8 @@ private:
 	void JoinRows(unsigned row1, unsigned row2, std::string newContent);
 
 	void JoinColumns(unsigned col1, unsigned col2, std::string newContent);
+
+	void SetStyle(std::string newStyle) { style = " " + newStyle; }
 
 	//handlers
 	//Remove the fist item of the vector that is gaven as input
@@ -73,6 +78,18 @@ private:
 	//handler join cols cmd; allow to join content of two columns and then delete one
 	void Handler_JoinColumns(std::vector<std::string>& args);
 
+	//set the table style
+	void Handler_SetTableStyle(std::vector<std::string>& args);
+	//set the row style of every row
+	void Handler_SetAllRowsStyle(std::vector<std::string>& args);
+	//set the style of all the cells
+	void Handler_SetAllCellsStyle(std::vector<std::string>& args);
+	//set the style of one row
+	void Handler_SetRowStyle(std::vector<std::string>& args);
+	//set the style of one column
+	void Handler_SetColStyle(std::vector<std::string>& args);
+	//set the style of all the cells of one row
+	void Handler_SetCellsStyle(std::vector<std::string>& args);
 
 public:
 	Table(const std::string& input);
@@ -98,5 +115,7 @@ public:
 	void CMD_Join(std::vector<std::string> args); // join 2 rows or columns
 	//fill empty elements and erase exceding one
 	void CMD_LineUp(std::vector<std::string> args);
+	//set style of every element
+	void CMD_Style(std::vector<std::string> args);
 };
 

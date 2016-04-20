@@ -19,6 +19,9 @@ class Cell
 private:
 	std::string content;
 	int CellNumber;
+
+	std::string style;
+
 	std::string EditPatternIdentifier = "@c@";
 
 	std::string JoinCurrentContentMarker = "@1@";
@@ -38,6 +41,8 @@ public:
 
 	//set the cell content based on a pattern and another string
 	void JoinContent(std::string Pattern, std::string content2);
+	//set the cell style
+	void SetStyle(std::string newStyle) { style =" "+ newStyle; }
 
 };
 

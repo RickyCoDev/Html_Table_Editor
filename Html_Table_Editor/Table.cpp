@@ -22,6 +22,8 @@ Table::Table(const std::string& input)
 		<< "with a total of: " + std::to_string(GetCellNumber()) + " of cells.";
 	std::cout << "\nOk now its time to work, check the GitHub wiki to get full commands reference:\n";
 
+	_input = ""; //clear usless values to free some ram
+
 	//register all console commands and set their handlers
 	cmds->RegisterCommand("WriteRaw", std::bind(&Table::CMD_WriteRawData, this, std::placeholders::_1));
 	cmds->RegisterCommand("output", std::bind(&Table::CMD_WriteOutput, this, std::placeholders::_1));
@@ -32,6 +34,7 @@ Table::Table(const std::string& input)
 	cmds->RegisterCommand("edit", std::bind(&Table::CMD_Set, this, std::placeholders::_1));
 	cmds->RegisterCommand("join", std::bind(&Table::CMD_Join, this, std::placeholders::_1));
 	cmds->RegisterCommand("lineup", std::bind(&Table::CMD_LineUp, this, std::placeholders::_1));
+	cmds->RegisterCommand("style", std::bind(&Table::CMD_Style, this, std::placeholders::_1));
 }
 
 
@@ -155,7 +158,7 @@ void Table::CMD_WriteOutput(std::vector<std::string> args)
 	fm->Write("<p> Licenced under Apache 2.0 Licence</p>");
 	fm->Write("<p>Please report any issues <a href=https://github.com/RickyCoDev/Html_Table_Editor>here</a></p>");
 	fm->Write("<p>Note: The watermark above can be removed.<br>Giving attribution is not required, but is greatly appreciated!</p><br/><br/>\n\n");
-	fm->Write("<table>");
+	fm->Write("<table"+style+">");
 	for (int i = 0; i < Rows.size(); i++)
 	{
 		fm->Write(Rows[i].GetRowContent(OutputKind::normal) + "\n");
@@ -562,4 +565,130 @@ void Table::CMD_LineUp(std::vector<std::string> args)
 		}
 	}
 	msg->csucc << "The table has been lined up.";
+}
+
+void Table::CMD_Style(std::vector<std::string> args)
+{
+	if (args.size() < 2) throw CustomExceptions::CmdError("E0017 - Missing parameters for set command");
+
+	if (args[0] == "table")
+	{
+		URemoveFirstArg(args);
+		//call handler
+		Handler_SetTableStyle(args);
+		return;
+	}
+	if (args[0] == "allrows")
+	{
+		URemoveFirstArg(args);
+		//call handler
+		Handler_SetAllRowsStyle(args);
+		return;
+	}
+	if (args[0] == "allcells")
+	{
+		URemoveFirstArg(args);
+		//call handler
+		Handler_SetAllCellsStyle(args);
+		return;
+	}
+
+	if (args.size() < 3) throw CustomExceptions::CmdError("E0017 - Missing parameters for set command");
+	if (args[0] == "row")
+	{
+		URemoveFirstArg(args);
+		//call handler
+		Handler_SetRowStyle(args);
+		return;
+	}
+	if (args[0] == "col")
+	{
+		URemoveFirstArg(args);
+		//call handler
+		Handler_SetColStyle(args);
+		return;
+	}
+	if (args[0] == "cells")
+	{
+		URemoveFirstArg(args);
+		//call handler
+		Handler_SetCellsStyle(args);
+		return;
+	}
+
+	//if we get here something is wrong with parametes.
+	throw CustomExceptions::CmdError("E0018 - Wrong paramets");
+}
+
+void Table::Handler_SetTableStyle(std::vector<std::string>& args)
+{
+	std::string newStyle = UGetAllArgsInString(args);
+	SetStyle(newStyle);
+	msg->csucc << "Updated table style to: " + newStyle;
+}
+
+void Table::Handler_SetAllRowsStyle(std::vector<std::string>& args)
+{
+	std::string newStyle = UGetAllArgsInString(args);
+	for (int i = 0; i < Rows.size(); i++)
+	{
+		Rows[i].SetStyle(newStyle);
+	}
+	msg->csucc << "Updated style of all the rows to: " + newStyle;
+}
+
+void Table::Handler_SetAllCellsStyle(std::vector<std::string>& args)
+{
+	std::string newStyle = UGetAllArgsInString(args);
+	for (int i = 0; i < Rows.size(); i++)
+	{
+		Rows[i].SetCellsStyle(newStyle);
+	}
+	msg->csucc << "Updated style of all the cells to: " + newStyle;
+}
+
+void Table::Handler_SetRowStyle(std::vector<std::string>& args)
+{
+	int pos = -1;
+	std::stringstream{ args[0] } >> pos;
+	pos -= 1;
+	URemoveFirstArg(args);
+
+	if (pos<0 || pos >= Rows.size()) throw CustomExceptions::CmdError("E0020 - Wrong position: the specified position is not in the table!");
+
+	std::string newStyle = UGetAllArgsInString(args);
+	Rows[pos].SetStyle(newStyle);
+	msg->csucc << "Updated style of the row "+std::to_string(pos+1)+": " + newStyle;
+}
+
+void Table::Handler_SetCellsStyle(std::vector<std::string>& args)
+{
+	int pos = -1;
+	std::stringstream{ args[0] } >> pos;
+	pos -= 1;
+	URemoveFirstArg(args);
+
+	if (pos<0 || pos >= Rows.size()) throw CustomExceptions::CmdError("E0020 - Wrong position: the specified position is not in the table!");
+
+	std::string newStyle = UGetAllArgsInString(args);
+	Rows[pos].SetCellsStyle(newStyle);
+	msg->csucc << "Updated style of the row " + std::to_string(pos + 1) + " cells: " + newStyle;
+}
+
+void Table::Handler_SetColStyle(std::vector<std::string>& args)
+{
+	int pos = -1;
+	std::stringstream{ args[0] } >> pos;
+	pos -= 1;
+	URemoveFirstArg(args);
+
+	if (pos<0 || pos >= Rows[0].GetCellsCount()) throw CustomExceptions::CmdError("E0020 - Wrong position: the specified position is not in the table!");
+
+	std::string newStyle = UGetAllArgsInString(args);
+	for (int i = 0; i < Rows.size(); i++)
+	{
+		Rows[i].SetCellStyle(pos, newStyle);
+	}
+
+	msg->csucc << "Updated style of the col " + std::to_string(pos + 1) + " cells: " + newStyle;
 }

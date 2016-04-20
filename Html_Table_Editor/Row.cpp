@@ -92,7 +92,7 @@ std::string Row::GetRowContent(OutputKind kind)
 		OpenTag = "Row "+std::to_string(RowNumber+1)+": |"; CloseTag = "";
 		break;
 	case OutputKind::normal: //TODO: add style string for rows
-		OpenTag = "<tr>";  CloseTag = "</tr>";
+		OpenTag = "<tr"+style+">";  CloseTag = "</tr>";
 		break;
 	}
 	temp += OpenTag;
@@ -174,4 +174,18 @@ void Row::JoinCellContent(unsigned cPos, std::string pattern, std::string c2Cont
 	if (cPos >= Cells.size()) return;
 
 	Cells[cPos].JoinContent(pattern, c2Content);
+}
+
+void Row::SetCellStyle(unsigned cPos, std::string newStyle)
+{
+	if (cPos >= Cells.size() || IsEmpty()) return ;
+
+	Cells[cPos].SetStyle(newStyle);
+
+}
+
+void Row::SetCellsStyle(std::string newStyle)
+{
+	for (int i = 0; i < Cells.size(); i++)
+		SetCellStyle(i, newStyle);
 }
