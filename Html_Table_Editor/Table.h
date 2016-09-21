@@ -2,7 +2,7 @@
 Html_Table_Editor
 https://github.com/RickyCoDev/Html_Table_Editor
 
-Copyright (c) 2016 RickyCoDev
+Copyright (c) 2016 Ricky Corte
 
 Licenced under Apache 2.0 Licence
 http://www.apache.org/licenses/LICENSE-2.0
@@ -25,7 +25,6 @@ private:
 
 	std::string style;
 
-	Console::Msg* msg;
 	int ignorepos = 0;
 	//replace all html tags with custom defined tags
 	void ReplaceKnownHtmlFormattingTags();

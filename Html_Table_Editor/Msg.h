@@ -2,15 +2,21 @@
 Html_Table_Editor
 https://github.com/RickyCoDev/Html_Table_Editor
 
-Copyright (c) 2016 RickyCoDev
+Copyright (c) 2016 Ricky Corte
 
 Licenced under Apache 2.0 Licence
 http://www.apache.org/licenses/LICENSE-2.0
 */
 
+#ifndef __MSG__
+#define __MSG__
+
+
+
 #pragma once
 #include<string>
 #include<iostream>
+#include<sstream>
 
 //define cross platform colors
 #if _WIN32
@@ -20,34 +26,74 @@ http://www.apache.org/licenses/LICENSE-2.0
 #define RED  "\x1b[31m"
 #define GREEN  "\x1b[32m"
 #define YELLOW  "\x1b[33m"
-#define BLUE  "\x1b[34m"
 #define DEFAULT  "\x1b[0m"
 #endif
 namespace Console
 {
+	class IPrintable
+	{
+	public:
+		virtual std::string ToString() = 0;
+
+		virtual std::string operator+ (const std::string s)
+		{
+			return ToString() + s;
+		}
+
+		template <typename T> friend std::string operator+ (const std::string s, T& i)
+		{
+			return s + i.ToString();
+		}
+
+		template <typename T> friend std::ostream& operator<<(std::ostream& os, T t)
+		{
+			os << t.ToString();
+			return os;
+		}
+
+	};
+
 	class Msg
 	{
 	private:
 		//available colors
-		enum Color { red, yellow, green, blue, normal };
+		enum Color { red, yellow, green, normal };
 
-		class OutStream
-		{
-		private:
-			std::string prefix;
-			Color _col;
-			//output string to a desired color
-			static void ColoredOutput(std::string Message, Color col);
-		public:
-			OutStream& operator << (const std::string& _msg);
-			OutStream(Color col);
-		};
+		static void out(const std::ostringstream&, Color col= Color::normal);
 
 	public:
 		Msg();
-		OutStream clog{ Color::normal }, cwarn{ Color::yellow }, cerr{ Color::red }, csucc{ Color::green };
-		void WelcomeMessage();
+		static void WelcomeMessage();
+
+		template<typename T> static void Log(T& m)
+		{
+			std::ostringstream ss;
+			ss << "**Log** " << m << std::endl;
+			out(ss);
+		}
+
+		template<typename T> static void LogWarn(T& m)
+		{
+			std::ostringstream ss;
+			ss << "**Warning** " << m << std::endl;
+			out(ss,Color::yellow);
+		}
+
+		template<typename T> static void LogError(const T& m)
+		{
+			std::ostringstream ss;
+			ss << "**Error** " << m << std::endl;
+			out(ss, Color::red);
+		}
+		template<typename T> static void LogSucc(const T& m)
+		{
+			std::ostringstream ss;
+			ss << m << std::endl;
+			out(ss, Color::green);
+		}
 	};
 
 }
+
+#endif // !__MSG__
 

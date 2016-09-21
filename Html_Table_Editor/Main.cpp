@@ -2,7 +2,7 @@
 Html_Table_Editor
 https://github.com/RickyCoDev/Html_Table_Editor
 
-Copyright (c) 2016 RickyCoDev
+Copyright (c) 2016 Ricky Corte
 
 Licenced under Apache 2.0 Licence
 http://www.apache.org/licenses/LICENSE-2.0
@@ -14,13 +14,11 @@ http://www.apache.org/licenses/LICENSE-2.0
 #include "Table.h"
 #include "FileManager.h"
 #include <sstream>
-//Cmsg::Msg* msg = new Cmsg::Msg{};
 
 int main()
 {
 	bool autoOutput = false;
-	Console::Msg* msg = new Console::Msg{};
-	msg->WelcomeMessage();
+	Console::Msg::WelcomeMessage();
 	try 
 	{
 		FileManager* fm = new FileManager();
@@ -43,7 +41,6 @@ int main()
 	   std::stringstream s{ m };
 	   while (s >> m)
 	   {
-		   //msg->clog << "-" + m + "-";
 		   args.push_back(m);
 	   }
 
@@ -58,11 +55,10 @@ int main()
 				autoOutput = !autoOutput;
 				args.clear();
 				std::string status = autoOutput ? "active" : "disabled";
-				msg->csucc << "AutoOutput is now " +status;
+				Console::Msg::LogSucc( "AutoOutput is now " +status);
 			}
 			else
 			{
-				//msg->clog << "Current cmd: "+CurCmd+" has " + std::to_string(args.size())+" args";
 				cmds->RunCommand(CurCmd, args); // not able to handle parameter for the moment
 
 				args.clear(); //remove cmd buffer
@@ -78,10 +74,9 @@ int main()
 		}
 		catch (const std::exception& e)
 		{
-			msg->cerr<<e.what();
+			Console::Msg::LogError( e.what());
 			args.clear(); //remove cmd buffer
 		}
 	}
-	delete msg;
 	return 0;
 }

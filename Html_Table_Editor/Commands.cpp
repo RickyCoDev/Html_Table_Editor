@@ -2,7 +2,7 @@
 Html_Table_Editor
 https://github.com/RickyCoDev/Html_Table_Editor
 
-Copyright (c) 2016 RickyCoDev
+Copyright (c) 2016 Ricky Corte
 
 Licenced under Apache 2.0 Licence
 http://www.apache.org/licenses/LICENSE-2.0
@@ -43,12 +43,10 @@ void Commands::RunCommand(std::string cmd, std::vector<std::string> args)
 
 void Commands::TestCmdCallback(std::vector<std::string> args)
 {
-	Console::Msg* msg = new Console::Msg{};
 	if (args.size() > 0)
 	{
-		msg->cwarn << "This command has no paramenter(s), ignoring the current one(s)!";
+		Console::Msg::LogWarn("This command has no paramenter(s), ignoring the current one(s)!");
 		args.clear();
 	}
-	msg->csucc << "This is a test message. The commands are working correctly!";
-	delete msg;
+	Console::Msg::LogSucc("This is a test message. The commands are working correctly!");
 }

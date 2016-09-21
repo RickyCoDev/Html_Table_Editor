@@ -2,7 +2,7 @@
 Html_Table_Editor
 https://github.com/RickyCoDev/Html_Table_Editor
 
-Copyright (c) 2016 RickyCoDev
+Copyright (c) 2016 Ricky Corte
 
 Licenced under Apache 2.0 Licence
 http://www.apache.org/licenses/LICENSE-2.0
@@ -12,26 +12,23 @@ http://www.apache.org/licenses/LICENSE-2.0
 Row::Row(const std::string& input, const int rowNumber) : RowNumber(rowNumber)
 {
 	std::string _input = input;
-	Console::Msg* msg = new Console::Msg{};
 	//input = Reduce(input, ">",""); // remove the open tag part
-	msg->clog << "Row " + std::to_string(RowNumber+1) + ":\n ";
+	Console::Msg::Log("Row " + std::to_string(RowNumber+1) + ":\n ");
 	try 
 	{
 		PopulateCells(_input);
 	}
 	catch (const CustomExceptions::FileError& e)
 	{
-		msg->cerr << "E0014 - Sorry, wrong row formatting.";
-		msg->cerr << "Details: " + (std::string)e.what();
-		delete msg;
+		Console::Msg::LogError("E0014 - Sorry, wrong row formatting.");
+		Console::Msg::LogError("Details: " + (std::string)e.what());
 		throw e;
 	}
 	catch (const std::exception& e)
 	{
-		msg->cerr << "E0007 - Sorry, something went wrong reading table row.";
-		msg->cerr << "Details: " + (std::string)e.what();
+		Console::Msg::LogError("E0007 - Sorry, something went wrong reading table row.");
+		Console::Msg::LogError("Details: " + (std::string)e.what());
 	}
-	delete msg;
 }
 
 Row::Row(int cells)
@@ -136,9 +133,7 @@ void Row::SetCellContent(unsigned Cpos, std::string newContent)
 {
 	if (Cpos+1 > Cells.size())
 	{
-		Console::Msg* msg = new Console::Msg{};
-		msg->cwarn << "The row "+std::to_string(RowNumber+1)+" has a null cell at: "+std::to_string(Cpos+1)+", filling row with empty cells";
-		delete msg;
+		Console::Msg::LogWarn("The row "+std::to_string(RowNumber+1)+" has a null cell at: "+std::to_string(Cpos+1)+", filling row with empty cells");
 		FillWithEmptyCells(Cpos + 1 - Cells.size());
 	}
 

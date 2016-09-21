@@ -2,7 +2,7 @@
 Html_Table_Editor
 https://github.com/RickyCoDev/Html_Table_Editor
 
-Copyright (c) 2016 RickyCoDev
+Copyright (c) 2016 Ricky Corte
 
 Licenced under Apache 2.0 Licence
 http://www.apache.org/licenses/LICENSE-2.0
@@ -30,10 +30,8 @@ FileManager::FileManager(File ft)
 	}
 	catch(const std::exception& e)
 	{
-		Console::Msg* msg = new Console::Msg{};
-		msg->cerr << "E0010 - Sorry, can't open/create the output file.";
-		msg->cerr << "Details: " + (std::string)e.what();
-		delete msg;
+		Console::Msg::LogError( "E0010 - Sorry, can't open/create the output file.");
+		Console::Msg::LogError("Details: " + (std::string)e.what());
 		throw e;
 	}
 }
@@ -60,16 +58,12 @@ std::string FileManager::ReadFromFile(const std::string& filename)
 	}
 	catch (const std::exception& e)
 	{
-		Console::Msg* msg = new Console::Msg{};
-		msg->cerr << "E0011 - Sorry, can't read input file.";
-		msg->cerr << "Details: " + (std::string)e.what();
-		delete msg;
+		Console::Msg::LogError("E0011 - Sorry, can't read input file.");
+		Console::Msg::LogError("Details: " + (std::string)e.what());
 		throw e; // prevent the program to run with this error
 	}
 	myfile->close();
-	Console::Msg* msg = new Console::Msg{};
-	msg->clog << "Input: " + fileContent+"\n";
-	delete msg;
+	Console::Msg::Log("Input: " + fileContent+"\n");
 	return fileContent;
 }
 

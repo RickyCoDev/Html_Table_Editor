@@ -2,7 +2,7 @@
 Html_Table_Editor
 https://github.com/RickyCoDev/Html_Table_Editor
 
-Copyright (c) 2016 RickyCoDev
+Copyright (c) 2016 Ricky Corte
 
 Licenced under Apache 2.0 Licence
 http://www.apache.org/licenses/LICENSE-2.0
@@ -12,7 +12,7 @@ http://www.apache.org/licenses/LICENSE-2.0
 
 Console::Msg::Msg() {};
 
-void Console::Msg::OutStream::ColoredOutput(std::string Message, Color col)
+void Console::Msg::out(const std::ostringstream& ss, Color col)
 {
 	//platform dependent compilation to grant cross platform colors
 #if _WIN32
@@ -29,63 +29,32 @@ void Console::Msg::OutStream::ColoredOutput(std::string Message, Color col)
 	case Color::green:
 		SetConsoleTextAttribute(h, 10);
 		break;
-	case Color::blue:
-		SetConsoleTextAttribute(h, 9);
-		break;
 	}
-	std::cout << Message;
+	std::cout<<ss.str();
 	//reset default message color
 	SetConsoleTextAttribute(h, 7);
 #else
 	switch (col)
 	{
 	case Color::red:
-		printf(RED  "%s"  DEFAULT, Message.c_str());
+		printf(RED  "%s"  DEFAULT, ss.str());
 		break;
 	case Color::yellow:
-		printf(YELLOW  "%s"  DEFAULT, Message.c_str());
+		printf(YELLOW  "%s"  DEFAULT, ss.str());
 		break;
 	case Color::green:
-		printf(GREEN  "%s"  DEFAULT, Message.c_str());
-		break;
-	case Color::blue:
-		printf(BLUE  "%s"  DEFAULT, Message.c_str());
+		printf(GREEN  "%s"  DEFAULT, ss.str());
 		break;
 	}
 #endif	
 }
 
 
-Console::Msg::OutStream::OutStream(Color col)
-{
-	_col = col;
-	switch (col)
-	{
-	case Console::Msg::red:
-		prefix = "**Error** ";
-		break;
-	case Console::Msg::yellow:
-		prefix = "**Warning** ";
-		break;
-	case Console::Msg::normal:
-		prefix = "**Log** ";
-		break;
-	default:
-		break;
-	}
-}
-
-Console::Msg::OutStream& Console::Msg::OutStream::operator<< (const std::string& _msg)
-{
-	if (_col != Color::normal)
-		ColoredOutput(prefix+_msg+"\n", _col);
-	else
-		std::cout << prefix<< _msg <<"\n";
-	return *this;
-}
-
 void Console::Msg::WelcomeMessage()
 {
-	csucc << "Html Table Editor" << "https://github.com/RickyCoDev/Html_Table_Editor" <<"\nCopyright (c) 2016 RickyCoDev"<<"Licenced under Apache 2.0 Licence\n";
+	LogSucc("Html Table Editor\n");
+	LogSucc("https://github.com/rickycorte/Html_Table_Editor");
+	LogSucc("Copyright (c) 2016 Ricky Corte");
+	LogSucc("Licenced under Apache 2.0 Licence\n");
 }
 

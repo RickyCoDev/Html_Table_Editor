@@ -2,14 +2,13 @@
 Html_Table_Editor
 https://github.com/RickyCoDev/Html_Table_Editor
 
-Copyright (c) 2016 RickyCoDev
+Copyright (c) 2016 Ricky Corte
 
 Licenced under Apache 2.0 Licence
 http://www.apache.org/licenses/LICENSE-2.0
 */
 
 #include"Common.h"
-Console::Msg* msg = new Console::Msg{};
 Commands* cmds = new Commands{};
 
 std::string Replace(const std::string& input, const std::string& StringToReplace, const std::string& Replacer)

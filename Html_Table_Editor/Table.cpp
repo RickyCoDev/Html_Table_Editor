@@ -2,7 +2,7 @@
 Html_Table_Editor
 https://github.com/RickyCoDev/Html_Table_Editor
 
-Copyright (c) 2016 RickyCoDev
+Copyright (c) 2016 Ricky Corte
 
 Licenced under Apache 2.0 Licence
 http://www.apache.org/licenses/LICENSE-2.0
@@ -12,14 +12,13 @@ http://www.apache.org/licenses/LICENSE-2.0
 
 Table::Table(const std::string& input)
 {
-	msg = new Console::Msg{};
 	GetTable(input);
 	//print table properties
 	std::string layout = (HasLayout()) ? "True" : "False"; //make the output more readable
-	msg->csucc << "\nThe table in input has this properties:"
-		<< "has a layout: " + layout
-	    << "has "+std::to_string(GetRowNumber()) + " rows and "+std::to_string(GetColumnNumber()) + " columns"
-		<< "with a total of: " + std::to_string(GetCellNumber()) + " of cells.";
+	Console::Msg::LogSucc("\nThe table in input has this properties:");
+	Console::Msg::LogSucc("has a layout: " + layout);
+	Console::Msg::LogSucc("has " + std::to_string(GetRowNumber()) + " rows and " + std::to_string(GetColumnNumber()) + " columns");
+	Console::Msg::LogSucc("with a total of: " + std::to_string(GetCellNumber()) + " of cells.");
 	std::cout << "\nOk now its time to work, check the GitHub wiki to get full commands reference:\n";
 
 	_input = ""; //clear usless values to free some ram
@@ -40,7 +39,6 @@ Table::Table(const std::string& input)
 
 Table::~Table()
 {
-	delete msg;
 }
 
 void Table::ReplaceKnownHtmlFormattingTags()
@@ -61,8 +59,8 @@ void Table::ReplaceKnownHtmlFormattingTags()
 	}
 	catch (const std::exception& e)
 	{
-		msg->cerr << "E0005 - Sorry, this is not a Html table. Please check your input.";
-		msg->cerr << "Details: " + (std::string)e.what();
+		Console::Msg::LogError( "E0005 - Sorry, this is not a Html table. Please check your input.");
+		Console::Msg::LogError("Details: " + (std::string)e.what());
 		throw e; // prevent the program to continue without an acceptable input
 	}
 }
@@ -84,26 +82,24 @@ void Table::GetTable(const std::string& input)
 {
 	_input = input;
 	ReplaceKnownHtmlFormattingTags();
-	//msg->clog << "Tag replace result is:\n" + _input;
 	try
 	{
 		_input = Reduce(_input, TableOpenTag, TableCloseTag);
-		//msg->clog << "Table reduce result is:\n" + _input;
 		PopulateRows(_input,ignorepos);
 	}
 	catch (const CustomExceptions::FileError& e)//ignore the line and try to check again the table
 	{
 		ignorepos++;
 
-		msg->cwarn << "Ignoring line: " + std::to_string(ignorepos);
+		Console::Msg::LogWarn("Ignoring line: " + std::to_string(ignorepos));
 
 		Rows.clear(); // be sure that all row vector is clear
 		GetTable(input); // try to read again the table
 	}
 	catch (const std::exception& e)
 	{
-		msg->cerr << "E0006 - Sorry, something went wrong preparing table rows.";
-		msg->cerr << "Details: " + (std::string)e.what();
+		Console::Msg::LogError("E0006 - Sorry, something went wrong preparing table rows.");
+		Console::Msg::LogError("Details: " + (std::string)e.what());
 	}
 }
 
@@ -130,10 +126,10 @@ void Table::CMD_WriteRawData(std::vector<std::string> args)
 	FileManager* fm = new FileManager{ FileManager::File::cleandata };
 	fm->Write("RAW DATA\n\n");
 	fm->Write("Extracted form a html table using Html Table Editor by RickyCoDev\n");
-	fm->Write(" Copyright (c) 2016 RickyCoDev\n");
+	fm->Write(" Copyright (c) 2016 Ricky Corte\n");
 	fm->Write(" Licenced under Apache 2.0 Licence\n");
-	fm->Write("Please report any issues at: https://github.com/RickyCoDev/Html_Table_Editor\n\n");
-	fm->Write("Note: The watermark above can be removed.\n Giving attribution is not required, but is greatly appreciated!\n\n");
+	fm->Write("Please report any issues at: https://github.com/rickycorte/Html_Table_Editor");
+	fm->Write("\n\nNote: The watermark above can be removed.\n Giving attribution is not required, but is greatly appreciated!\n\n");
 	for (int i = 0; i < Rows.size();i++)
 	{
 		fm->Write(Rows[i].GetRowContent(OutputKind::clean)+"\n");
@@ -142,10 +138,10 @@ void Table::CMD_WriteRawData(std::vector<std::string> args)
 
 	if (args.size() > 0)
 	{
-		msg->cwarn << "This command takes no parameter(s), ignoring the current one(s).";
+		Console::Msg::LogWarn("This command takes no parameter(s), ignoring the current one(s).");
 		args.clear();
 	}
-	msg->csucc << "The raw data has been written on a file next to this executable.";
+	Console::Msg::LogSucc("The raw data has been written on a file next to this executable.");
 }
 
 void Table::CMD_WriteOutput(std::vector<std::string> args)
@@ -153,10 +149,10 @@ void Table::CMD_WriteOutput(std::vector<std::string> args)
 	FileManager* fm = new FileManager{ FileManager::File::output };
 	fm->Write("<html><body>");
 	fm->Write("<h1><center>HTML5 OUTPUT</center></h1>\n\n");
-	fm->Write("<p>This tables has been generated with Html Table Editor by RickyCoDev</p>");
+	fm->Write("<p>This tables has been generated with Html Table Editor by RikcyCorte</p>");
 	fm->Write("<p> Copyright (c) 2016 RickyCoDev</p>");
 	fm->Write("<p> Licenced under Apache 2.0 Licence</p>");
-	fm->Write("<p>Please report any issues <a href=https://github.com/RickyCoDev/Html_Table_Editor>here</a></p>");
+	fm->Write("<p>Please report any issues <a href=https://github.com/rickycorte/Html_Table_Editor>here</a></p>");
 	fm->Write("<p>Note: The watermark above can be removed.<br>Giving attribution is not required, but is greatly appreciated!</p><br/><br/>\n\n");
 	fm->Write("<table"+style+">");
 	for (int i = 0; i < Rows.size(); i++)
@@ -168,10 +164,10 @@ void Table::CMD_WriteOutput(std::vector<std::string> args)
 	
 	if (args.size() > 0)
 	{
-		msg->cwarn << "This command takes no parameter(s), ignoring the current one(s).";
+		Console::Msg::LogWarn("This command takes no parameter(s), ignoring the current one(s).");
 		args.clear();
 	}
-	msg->csucc << "The output has been written on 'output.html' file next to this executable.";
+	Console::Msg::LogSucc("The output has been written on 'output.html' file next to this executable.");
 }
 
 void Table::URemoveFirstArg(std::vector<std::string>& args)
@@ -206,7 +202,7 @@ void Table::Handler_AddRowCMD(std::vector<std::string>& args)
 	int InsertPos = Rows.size()+1; //end of table, +1 is required because later this number ios decreased by 1
 	if (args.size() > 2)
 	{
-		msg->cwarn<<"Only one paramter is required, ingoring the other one(s)";
+		Console::Msg::LogWarn("Only one paramter is required, ingoring the other one(s)");
 	}
 
 	if (args.size() > 1)
@@ -214,7 +210,7 @@ void Table::Handler_AddRowCMD(std::vector<std::string>& args)
 
 	if (InsertPos < 2)
 	{
-		msg->cwarn << "You can't put a row before layout! Moving new row to fist available line.";
+		Console::Msg::LogWarn("You can't put a row before layout! Moving new row to fist available line.");
 		InsertPos=2;
 	}
 
@@ -235,7 +231,7 @@ void Table::Handler_AddRowCMD(std::vector<std::string>& args)
 
 void Table::Handler_AddColumnCMD(std::vector<std::string>& args)
 {
-	if(args.size()>1) msg->cwarn << "Only one paramter is required, ingoring the other one(s)";
+	if(args.size()>1) Console::Msg::LogWarn("Only one paramter is required, ingoring the other one(s)");
 
 	unsigned pos = Rows[0].GetCellsCount();
 	if (args.size() > 0)
@@ -252,14 +248,14 @@ void Table::AddRowAtPos(unsigned pos,Row& r)
 	{
 		Rows.insert(Rows.begin() + pos, r);//unsigned cast should remove out of range
 		ReEnumRows();
-		msg->csucc << "Added row at pos: " + std::to_string(pos+1);
+		Console::Msg::LogSucc("Added row at pos: " + std::to_string(pos+1));
 		return;
 	}
 	// if the row is outside or on last pos
 
 	Rows.push_back(r);
 	ReEnumRows();
-	msg->csucc << "Added row at the end of table";
+	Console::Msg::LogSucc("Added row at the end of table");
 }
 
 void Table::AddEmptyColumnAtPos(unsigned pos)
@@ -270,16 +266,16 @@ void Table::AddEmptyColumnAtPos(unsigned pos)
 	{
 		Rows[i].AddEmptyCell(pos-1);
 	}
-	msg->csucc << "Added empty column at: " + std::to_string(pos+1);
+	Console::Msg::LogError("Added empty column at: " + std::to_string(pos+1));
 }
 
 void Table::CMD_TableProps(std::vector<std::string> args)
 {
 	std::string layout = (HasLayout()) ? "True" : "False"; //make the output more readable
-	msg->csucc << "\nThe current table has this properties:"
-		<< "has a layout: " + layout
-		<< "has " + std::to_string(GetRowNumber()) + " rows and " + std::to_string(GetColumnNumber()) + " columns"
-		<< "with a total of: " + std::to_string(GetCellNumber()) + " of cells.";
+	Console::Msg::LogSucc("\nThe current table has this properties:");
+	Console::Msg::LogSucc("has a layout: " + layout);
+	Console::Msg::LogSucc("has " + std::to_string(GetRowNumber()) + " rows and " + std::to_string(GetColumnNumber()) + " columns");
+	Console::Msg::LogSucc("with a total of: " + std::to_string(GetCellNumber()) + " of cells.");
 }
 
 void Table::CMD_Rm(std::vector<std::string> args)
@@ -306,7 +302,7 @@ void Table::CMD_Rm(std::vector<std::string> args)
 void Table::Handler_RemoveRowCMD(std::vector<std::string>& args)
 {
 	unsigned RmPos = Rows.size();
-	if (args.size() > 1) msg->cwarn << "Only one paramter is required, ingoring the other one(s)";
+	if (args.size() > 1) Console::Msg::LogWarn("Only one paramter is required, ingoring the other one(s)");
 	if (args.size() > 0)
 		std::stringstream{ args[0] } >> RmPos;
 	RemoveRow(RmPos-1); // remove 1 to translate to machine position
@@ -318,13 +314,13 @@ void Table::RemoveRow(unsigned pos)
 	if (pos > Rows.size()) pos = Rows.size()-1;
 	Rows.erase(Rows.begin() + pos);
 	ReEnumRows();
-	msg->csucc << "Removed row at: " + std::to_string(pos+1);
+	Console::Msg::LogSucc("Removed row at: " + std::to_string(pos+1));
 }
 
 void Table::Handler_RemoveColumnCMD(std::vector<std::string>& args)
 {
 	unsigned RmPos = Rows[0].GetCellsCount();
-	if (args.size() > 1) msg->cwarn << "Only one paramter is required, ingoring the other one(s)";
+	if (args.size() > 1) Console::Msg::LogWarn("Only one paramter is required, ingoring the other one(s)");
 	if (args.size() > 0)
 		std::stringstream{ args[0] } >> RmPos;
 	RemoveColumn(RmPos - 1); // remove 1 to translate to machine position
@@ -338,7 +334,7 @@ void Table::RemoveColumn(unsigned pos)
 	{
 		Rows[i].RemoveCell(pos);
 	}
-	msg->csucc << "Removed column at: " + std::to_string(pos + 1);
+	Console::Msg::LogSucc("Removed column at: " + std::to_string(pos + 1));
 }
 
 std::string Table::UGetAllArgsInString(std::vector<std::string>& args)
@@ -408,7 +404,7 @@ void Table::Handler_SetRowContentCMD(std::vector<std::string>& args)
 		Rows[Pos].FillWithEmptyCells(Rows[0].GetCellsCount());
 	Rows[Pos].SetAllCellsContent(newContent);
 
-	msg->csucc << "The content of row " + std::to_string(Pos + 1) + " is set to: `" + newContent + "`";
+	Console::Msg::LogSucc("The content of row " + std::to_string(Pos + 1) + " is set to: `" + newContent + "`");
 }
 
 void Table::Handler_SetColumnContentCMD(std::vector<std::string>& args)
@@ -425,7 +421,7 @@ void Table::Handler_SetColumnContentCMD(std::vector<std::string>& args)
 		if(!Rows[i].IsEmpty()) // ignore empty lines
 		   Rows[i].SetCellContent(pos, newContent);
 	}
-	msg->csucc << "The content of column " + std::to_string(pos + 1) +" is set to: `" + newContent + "`";
+	Console::Msg::LogSucc("The content of column " + std::to_string(pos + 1) +" is set to: `" + newContent + "`");
 }
 
 void Table::Handler_SetAllContentCMD(std::vector<std::string>& args)
@@ -436,7 +432,7 @@ void Table::Handler_SetAllContentCMD(std::vector<std::string>& args)
 		if (Rows[i].IsEmpty()) Rows[i].FillWithEmptyCells(Rows[0].GetCellsCount());
 		Rows[i].SetAllCellsContent(newContent);
 	}
-	msg->csucc << "The content of all the cells is set to: `" + newContent + "`";
+	Console::Msg::LogSucc("The content of all the cells is set to: `" + newContent + "`");
 }
 
 void Table::Handler_SetCellContentCMD(std::vector<std::string>& args)
@@ -457,7 +453,7 @@ void Table::Handler_SetCellContentCMD(std::vector<std::string>& args)
 	std::string newContent = UGetAllArgsInString(args);
 	Rows[Rpos].SetCellContent(Cpos, newContent);
 
-	msg->csucc << "The content of the cell (" + std::to_string(Rpos + 1) + ";" + std::to_string(Cpos + 1) + ") is set to: `" + newContent + "`";
+	Console::Msg::LogSucc("The content of the cell (" + std::to_string(Rpos + 1) + ";" + std::to_string(Cpos + 1) + ") is set to: `" + newContent + "`");
 }
 
 void Table::CMD_Join(std::vector<std::string> args)
@@ -500,7 +496,7 @@ void Table::Handler_JoinRows(std::vector<std::string>& args)
 	JoinRows(row1, row2, content);
 
 	RemoveRow(row2); // remove the second row. Comment this line if want to keep the second one
-	msg->csucc << "Row " + std::to_string(row2 + 1) + " has been added to row " + std::to_string(row1 + 1) + " with this pattern: '" + content+"'";
+	Console::Msg::LogSucc("Row " + std::to_string(row2 + 1) + " has been added to row " + std::to_string(row1 + 1) + " with this pattern: '" + content+"'");
 }
 
 void Table::Handler_JoinColumns(std::vector<std::string>& args)
@@ -520,7 +516,7 @@ void Table::Handler_JoinColumns(std::vector<std::string>& args)
 	std::string content = UGetAllArgsInString(args);
 	JoinColumns(col1, col2, content);
 	RemoveColumn(col2);
-	msg->csucc << "Column " + std::to_string(col2 + 1) + " has been added to column " + std::to_string(col1 + 1) + " with this pattern: '" + content + "'";
+	Console::Msg::LogSucc("Column " + std::to_string(col2 + 1) + " has been added to column " + std::to_string(col1 + 1) + " with this pattern: '" + content + "'");
 }
 
 void Table::JoinRows(unsigned row1, unsigned row2, std::string newContent)
@@ -541,7 +537,7 @@ void Table::JoinColumns(unsigned col1, unsigned col2, std::string newContent)
 
 void Table::CMD_LineUp(std::vector<std::string> args)
 {
-	if (args.size() > 0) msg->cwarn << "No paramter is required, ingoring the other one(s)";
+	if (args.size() > 0) Console::Msg::LogWarn("No paramter is required, ingoring the other one(s)");
 	int LayoutCellCount = Rows[0].GetCellsCount();
 	for (int i = 0; i < Rows.size(); i++)
 	{
@@ -550,13 +546,13 @@ void Table::CMD_LineUp(std::vector<std::string> args)
 			//add empty cells
 			if (Rows[i].GetCellsCount() < LayoutCellCount)
 			{
-				msg->clog << "Filling row: " + std::to_string(i + 1);
+				Console::Msg::Log("Filling row: " + std::to_string(i + 1));
 				Rows[i].FillWithEmptyCells(LayoutCellCount - Rows[i].GetCellsCount());
 			}
 			//remove cels
 			if (Rows[i].GetCellsCount() > LayoutCellCount)
 			{
-				msg->clog << "Removing elements from row: " + std::to_string(i + 1);
+				Console::Msg::Log("Removing elements from row: " + std::to_string(i + 1));
 				while (Rows[i].GetCellsCount() != LayoutCellCount)
 				{
 					Rows[i].RemoveCell(Rows[i].GetCellsCount() - 1);
@@ -564,7 +560,7 @@ void Table::CMD_LineUp(std::vector<std::string> args)
 			}
 		}
 	}
-	msg->csucc << "The table has been lined up.";
+	Console::Msg::LogSucc("The table has been lined up.");
 }
 
 void Table::CMD_Style(std::vector<std::string> args)
@@ -624,7 +620,7 @@ void Table::Handler_SetTableStyle(std::vector<std::string>& args)
 {
 	std::string newStyle = UGetAllArgsInString(args);
 	SetStyle(newStyle);
-	msg->csucc << "Updated table style to: " + newStyle;
+	Console::Msg::LogSucc("Updated table style to: " + newStyle);
 }
 
 void Table::Handler_SetAllRowsStyle(std::vector<std::string>& args)
@@ -634,7 +630,7 @@ void Table::Handler_SetAllRowsStyle(std::vector<std::string>& args)
 	{
 		Rows[i].SetStyle(newStyle);
 	}
-	msg->csucc << "Updated style of all the rows to: " + newStyle;
+	Console::Msg::LogSucc("Updated style of all the rows to: " + newStyle);
 }
 
 void Table::Handler_SetAllCellsStyle(std::vector<std::string>& args)
@@ -644,7 +640,7 @@ void Table::Handler_SetAllCellsStyle(std::vector<std::string>& args)
 	{
 		Rows[i].SetCellsStyle(newStyle);
 	}
-	msg->csucc << "Updated style of all the cells to: " + newStyle;
+	Console::Msg::LogSucc("Updated style of all the cells to: " + newStyle);
 }
 
 void Table::Handler_SetRowStyle(std::vector<std::string>& args)
@@ -658,7 +654,7 @@ void Table::Handler_SetRowStyle(std::vector<std::string>& args)
 
 	std::string newStyle = UGetAllArgsInString(args);
 	Rows[pos].SetStyle(newStyle);
-	msg->csucc << "Updated style of the row "+std::to_string(pos+1)+": " + newStyle;
+	Console::Msg::LogSucc("Updated style of the row "+std::to_string(pos+1)+": " + newStyle);
 }
 
 void Table::Handler_SetCellsStyle(std::vector<std::string>& args)
@@ -672,7 +668,7 @@ void Table::Handler_SetCellsStyle(std::vector<std::string>& args)
 
 	std::string newStyle = UGetAllArgsInString(args);
 	Rows[pos].SetCellsStyle(newStyle);
-	msg->csucc << "Updated style of the row " + std::to_string(pos + 1) + " cells: " + newStyle;
+	Console::Msg::LogSucc("Updated style of the row " + std::to_string(pos + 1) + " cells: " + newStyle);
 }
 
 void Table::Handler_SetColStyle(std::vector<std::string>& args)
@@ -690,5 +686,5 @@ void Table::Handler_SetColStyle(std::vector<std::string>& args)
 		Rows[i].SetCellStyle(pos, newStyle);
 	}
 
-	msg->csucc << "Updated style of the col " + std::to_string(pos + 1) + " cells: " + newStyle;
+	Console::Msg::LogSucc("Updated style of the col " + std::to_string(pos + 1) + " cells: " + newStyle);
 }

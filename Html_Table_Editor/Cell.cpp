@@ -2,7 +2,7 @@
 Html_Table_Editor
 https://github.com/RickyCoDev/Html_Table_Editor
 
-Copyright (c) 2016 RickyCoDev
+Copyright (c) 2016 Ricky Corte
 
 Licenced under Apache 2.0 Licence
 http://www.apache.org/licenses/LICENSE-2.0
@@ -12,7 +12,6 @@ http://www.apache.org/licenses/LICENSE-2.0
 
 Cell::Cell(const std::string& input,const int cellNumber) : CellNumber(cellNumber)
 {
-	Console::Msg* msg = new Console::Msg{};
 	try
 	{
 		if (CheckForPresence(input,CellOpenTag))
@@ -23,14 +22,13 @@ Cell::Cell(const std::string& input,const int cellNumber) : CellNumber(cellNumbe
 	catch (const std::exception& e)
 	{
 
-		msg->cerr << "E0008 - Sorry, something went wrong reading cell "+ std::to_string(cellNumber) +".";
-		msg->cerr << "Details: " + (std::string)e.what();
-		msg->cerr << "An empty cell will be created!";
+		Console::Msg::LogError("E0008 - Sorry, something went wrong reading cell "+ std::to_string(cellNumber) +".");
+		Console::Msg::LogError("Details: " + (std::string)e.what());
+		Console::Msg::LogError( "An empty cell will be created!");
 		content = "";
 	}
 
-	msg->clog << "Cell " + std::to_string(cellNumber+1) + ":\n" + content;
-	delete msg;
+	Console::Msg::Log("Cell " + std::to_string(cellNumber+1) + ":\n" + content);
 }
 
 Cell::Cell()
