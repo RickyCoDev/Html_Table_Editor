@@ -1,6 +1,6 @@
 /*
 Html_Table_Editor
-https://github.com/RickyCoDev/Html_Table_Editor
+https://github.com/rickycorte/Html_Table_Editor
 
 Copyright (c) 2016 Ricky Corte
 
@@ -47,6 +47,15 @@ Row::~Row()
 void Row::PopulateCells(std::string input)
 {
 	std::vector<std::string> Parts;
+
+	if (!CheckForPresence(input, HCellCloseTag) && !CheckForPresence(input, CellCloseTag)) // this is a empty row
+	{
+		if (RowNumber == 0)
+			throw CustomExceptions::FileError("E00013 - First line can't be empty!"); // different error solution
+		throw CustomExceptions::ReadError("E0012 - This row is empty!");
+
+	}
+
 	if (CheckForPresence(input, CellCloseTag)) // normal line
 	{
 		Parts = SplitAt(input, CellCloseTag);
@@ -60,17 +69,10 @@ void Row::PopulateCells(std::string input)
 			isLayout = true;
 		else
 		{
-			throw CustomExceptions::ReadError("E0009 - Table layout can't be declared in row that is not the 1st.");
+			Console::Msg::LogError("E0009 - Table layout can't be declared in row that is not the 1st.");
 		}
 	  }
 
-	if (!CheckForPresence(input, HCellCloseTag) && !CheckForPresence(input, CellCloseTag)) // this is a empty row
-	{
-		if (RowNumber == 0)
-			throw CustomExceptions::FileError("E00013 - First line can't be empty!"); // different error solution
-		throw CustomExceptions::ReadError("E0012 - This row is empty!");
-
-	}
 	//TODO: create a empty line
 
 	for (int i = 0; i < Parts.size(); i++)

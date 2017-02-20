@@ -1,6 +1,6 @@
 /*
 Html_Table_Editor
-https://github.com/RickyCoDev/Html_Table_Editor
+https://github.com/rickycorte/Html_Table_Editor
 
 Copyright (c) 2016 Ricky Corte
 
@@ -14,11 +14,8 @@ Table::Table(const std::string& input)
 {
 	GetTable(input);
 	//print table properties
-	std::string layout = (HasLayout()) ? "True" : "False"; //make the output more readable
-	Console::Msg::LogSucc("\nThe table in input has this properties:");
-	Console::Msg::LogSucc("has a layout: " + layout);
-	Console::Msg::LogSucc("has " + std::to_string(GetRowNumber()) + " rows and " + std::to_string(GetColumnNumber()) + " columns");
-	Console::Msg::LogSucc("with a total of: " + std::to_string(GetCellNumber()) + " of cells.");
+	Console::Msg::LogSucc(*this);
+
 	std::cout << "\nOk now its time to work, check the GitHub wiki to get full commands reference:\n";
 
 	_input = ""; //clear usless values to free some ram
@@ -125,7 +122,7 @@ void Table::CMD_WriteRawData(std::vector<std::string> args)
 {
 	FileManager* fm = new FileManager{ FileManager::File::cleandata };
 	fm->Write("RAW DATA\n\n");
-	fm->Write("Extracted form a html table using Html Table Editor by RickyCoDev\n");
+	fm->Write("Extracted form a html table using Html Table Editor by RickyCorte\n");
 	fm->Write(" Copyright (c) 2016 Ricky Corte\n");
 	fm->Write(" Licenced under Apache 2.0 Licence\n");
 	fm->Write("Please report any issues at: https://github.com/rickycorte/Html_Table_Editor");
@@ -149,8 +146,8 @@ void Table::CMD_WriteOutput(std::vector<std::string> args)
 	FileManager* fm = new FileManager{ FileManager::File::output };
 	fm->Write("<html><body>");
 	fm->Write("<h1><center>HTML5 OUTPUT</center></h1>\n\n");
-	fm->Write("<p>This tables has been generated with Html Table Editor by RikcyCorte</p>");
-	fm->Write("<p> Copyright (c) 2016 RickyCoDev</p>");
+	fm->Write("<p>This tables has been generated with Html Table Editor by RickyCorte</p>");
+	fm->Write("<p> Copyright (c) 2016 RickyCorte</p>");
 	fm->Write("<p> Licenced under Apache 2.0 Licence</p>");
 	fm->Write("<p>Please report any issues <a href=https://github.com/rickycorte/Html_Table_Editor>here</a></p>");
 	fm->Write("<p>Note: The watermark above can be removed.<br>Giving attribution is not required, but is greatly appreciated!</p><br/><br/>\n\n");
@@ -266,16 +263,12 @@ void Table::AddEmptyColumnAtPos(unsigned pos)
 	{
 		Rows[i].AddEmptyCell(pos-1);
 	}
-	Console::Msg::LogError("Added empty column at: " + std::to_string(pos+1));
+	Console::Msg::LogSucc("Added empty column at: " + std::to_string(pos+1));
 }
 
 void Table::CMD_TableProps(std::vector<std::string> args)
 {
-	std::string layout = (HasLayout()) ? "True" : "False"; //make the output more readable
-	Console::Msg::LogSucc("\nThe current table has this properties:");
-	Console::Msg::LogSucc("has a layout: " + layout);
-	Console::Msg::LogSucc("has " + std::to_string(GetRowNumber()) + " rows and " + std::to_string(GetColumnNumber()) + " columns");
-	Console::Msg::LogSucc("with a total of: " + std::to_string(GetCellNumber()) + " of cells.");
+	Console::Msg::LogSucc(*this); //print table info
 }
 
 void Table::CMD_Rm(std::vector<std::string> args)
@@ -687,4 +680,10 @@ void Table::Handler_SetColStyle(std::vector<std::string>& args)
 	}
 
 	Console::Msg::LogSucc("Updated style of the col " + std::to_string(pos + 1) + " cells: " + newStyle);
+}
+
+std::string Table::ToString()
+{
+	std::string layout = (HasLayout()) ? "True" : "False"; //make the output more readable
+	return ("\nThe current table has this properties:\nhas a layout: " + layout+"\nhas " + std::to_string(GetRowNumber()) + " rows and " + std::to_string(GetColumnNumber()) + " columns\nwith a total of: " + std::to_string(GetCellNumber()) + " of cells.");
 }

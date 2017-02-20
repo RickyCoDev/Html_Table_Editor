@@ -1,6 +1,6 @@
 /*
 Html_Table_Editor
-https://github.com/RickyCoDev/Html_Table_Editor
+https://github.com/rickycorte/Html_Table_Editor
 
 Copyright (c) 2016 Ricky Corte
 
@@ -17,7 +17,7 @@ http://www.apache.org/licenses/LICENSE-2.0
 #include "Row.h"
 #include <sstream>
 
-class Table
+class Table : public Console::IPrintable
 {
 private:
 	std::string _input;
@@ -90,6 +90,7 @@ private:
 	//set the style of all the cells of one row
 	void Handler_SetCellsStyle(std::vector<std::string>& args);
 
+
 public:
 	Table(const std::string& input);
 	~Table();
@@ -116,5 +117,7 @@ public:
 	void CMD_LineUp(std::vector<std::string> args);
 	//set style of every element
 	void CMD_Style(std::vector<std::string> args);
+
+	std::string ToString() override;
 };
 

@@ -1,6 +1,6 @@
 /*
 Html_Table_Editor
-https://github.com/RickyCoDev/Html_Table_Editor
+https://github.com/rickycorte/Html_Table_Editor
 
 Copyright (c) 2016 Ricky Corte
 
@@ -15,15 +15,18 @@ http://www.apache.org/licenses/LICENSE-2.0
 #include "FileManager.h"
 #include <sstream>
 
+Table* table;
+
 int main()
 {
 	bool autoOutput = false;
 	Console::Msg::WelcomeMessage();
+	
 	try 
 	{
 		FileManager* fm = new FileManager();
 		std::string target = fm->ReadFromFile("htmlExampleTable.txt");
-		Table* table = new Table{ target };
+		table = new Table{ target };
 	}
 	catch (const std::exception& e)
 	{
@@ -35,6 +38,7 @@ int main()
 	std::string m;
 	std::vector<std::string> args;
 	std::string CurCmd;
+
 	while (m != "quit")
 	{
 	   std::getline(std::cin, m);// fill the input vector with command and args
