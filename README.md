@@ -54,7 +54,7 @@ Remember that I develop and test on Windows, I test only major builds on linux, 
 If you find an issue please report it [here](https://github.com/RickyCoDev/Html_Table_Editor/issues). Remember to carefully describe what happened. 
 
 #Licence
-Copyright (c) 2016 RickyCoDev
+Copyright (c) 2016 RickyCorte
 
 Licenced under Apache 2.0 Licence
 http://www.apache.org/licenses/LICENSE-2.0
